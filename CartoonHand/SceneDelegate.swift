@@ -16,7 +16,43 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowscene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: windowscene)
+        window?.frame = UIScreen.main.bounds
+        
+        let tabBarController = UITabBarController()
+
+        
+        let main = MainViewController()
+        main.tabBarItem.image = UIImage(named: "Main")?.withRenderingMode(.alwaysOriginal)
+        main.tabBarItem.selectedImage = UIImage(named: "Main_heightlight")?.withRenderingMode(.alwaysOriginal)
+
+        
+        let record = RecordViewController()
+        record.tabBarItem.image = UIImage(named: "Record")?.withRenderingMode(.alwaysOriginal)
+        record.tabBarItem.selectedImage = UIImage(named: "Record_heightlight")?.withRenderingMode(.alwaysOriginal)
+//        record.tabBarItem.title = "History"
+
+        
+        let store = StoreViewController()
+        store.tabBarItem.image = UIImage(named: "Store")?.withRenderingMode(.alwaysOriginal)
+        store.tabBarItem.selectedImage = UIImage(named: "Store_heightlight")?.withRenderingMode(.alwaysOriginal)
+//        store.title = "store"
+
+        
+        let mainNav = UINavigationController(rootViewController: main)
+        let recordNav = UINavigationController(rootViewController: record)
+        let storeNav = UINavigationController(rootViewController: store)
+        
+        // 加到TabBarController
+        tabBarController.addChild(mainNav)
+        tabBarController.addChild(recordNav)
+        tabBarController.addChild(storeNav)
+
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

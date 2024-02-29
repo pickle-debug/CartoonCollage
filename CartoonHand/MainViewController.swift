@@ -15,8 +15,10 @@ class MainViewController: UIViewController {
     var tipCartoonAvatar = UIImageView()
     //卡通头像入口
     var cartoonInter = UIButton()
+    var cartoonHeadCollageVC = UIViewController()
     //真实头像入口
     var realInter = UIButton()
+    var realHeadCollageVC = UIViewController()
     
     override func viewWillAppear(_ animated: Bool) {
         setUI()
@@ -58,25 +60,42 @@ class MainViewController: UIViewController {
         }
         
         //MARK: - 主页真实头像与卡通头像入口的UI设置
+        
         self.view.addSubview(realInter)
         realInter.setImage(UIImage(named: "Group 46"), for: .normal)
+        realInter.addTarget(self, action: #selector(toRealHeadCollage), for: .touchUpInside)
+        realInter.translatesAutoresizingMaskIntoConstraints = false
         realInter.layout { view in
             view.height == 339
             view.width == 362
-            view.leading == view.superview.leading
+            view.trailing == tip.trailing
             view.top == tip.bottom + 18
         }
+
         self.view.addSubview(cartoonInter)
         cartoonInter.setImage(UIImage(named: "Group 45"), for: .normal)
+        cartoonInter.addTarget(self, action: #selector(toCartoonHeadCollage), for: .touchUpInside)
+        cartoonInter.translatesAutoresizingMaskIntoConstraints = false
+        
         cartoonInter.layout { view in
             view.height == 302.98
             view.width == 185
-            view.leading == realInter.leading + 19
-            view.top == realInter.top + 30
-            
+            view.leading == tip.leading
+            view.top == tip.bottom + 48
         }
-        self.view.addSubview(realInter)
+        
+    }
 
+    @objc func toRealHeadCollage(){
+        // 创建下一个视图控制器
+        let nextViewController = realHeadCollageVC
+        // 推入下一个视图控制器
+        navigationController?.pushViewController(nextViewController, animated: true)
+    }
+    @objc func toCartoonHeadCollage(){
+        let nextViewController = cartoonHeadCollageVC
+        // 推入下一个视图控制器
+        navigationController?.pushViewController(nextViewController, animated: true)
         
     }
 

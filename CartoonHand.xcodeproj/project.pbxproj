@@ -18,6 +18,8 @@
 		C975D3AB2B90359C00E6778D /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3AA2B90359C00E6778D /* StoreViewController.swift */; };
 		C975D3AD2B9051B200E6778D /* Ex+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3AC2B9051B200E6778D /* Ex+Layout.swift */; };
 		C975D3AF2B905A4300E6778D /* Ex+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3AE2B905A4300E6778D /* Ex+Color.swift */; };
+		C975D3B22B90693B00E6778D /* RealHeadCollageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3B12B90693B00E6778D /* RealHeadCollageViewController.swift */; };
+		C975D3B42B90695B00E6778D /* CartoonHeadCollageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3B32B90695B00E6778D /* CartoonHeadCollageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		C975D3AA2B90359C00E6778D /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		C975D3AC2B9051B200E6778D /* Ex+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Layout.swift"; sourceTree = "<group>"; };
 		C975D3AE2B905A4300E6778D /* Ex+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Color.swift"; sourceTree = "<group>"; };
+		C975D3B12B90693B00E6778D /* RealHeadCollageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealHeadCollageViewController.swift; sourceTree = "<group>"; };
+		C975D3B32B90695B00E6778D /* CartoonHeadCollageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartoonHeadCollageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,8 @@
 				C975D3942B90294E00E6778D /* SceneDelegate.swift */,
 				C975D3962B90294E00E6778D /* ViewController.swift */,
 				C975D3A62B902E9200E6778D /* MainViewController.swift */,
+				C975D3B12B90693B00E6778D /* RealHeadCollageViewController.swift */,
+				C975D3B32B90695B00E6778D /* CartoonHeadCollageViewController.swift */,
 				C975D3A82B90358D00E6778D /* RecordViewController.swift */,
 				C975D3AA2B90359C00E6778D /* StoreViewController.swift */,
 				C975D3982B90294E00E6778D /* Main.storyboard */,
@@ -162,7 +168,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C975D3AF2B905A4300E6778D /* Ex+Color.swift in Sources */,
+				C975D3B42B90695B00E6778D /* CartoonHeadCollageViewController.swift in Sources */,
 				C975D3A72B902E9200E6778D /* MainViewController.swift in Sources */,
+				C975D3B22B90693B00E6778D /* RealHeadCollageViewController.swift in Sources */,
 				C975D3AD2B9051B200E6778D /* Ex+Layout.swift in Sources */,
 				C975D3972B90294E00E6778D /* ViewController.swift in Sources */,
 				C975D3AB2B90359C00E6778D /* StoreViewController.swift in Sources */,
