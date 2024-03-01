@@ -25,7 +25,9 @@ class RealHeadCollageViewController: UIViewController {
     
     @objc func backButtonTapped() {
         // 返回上一个视图控制器
+
         navigationController?.popViewController(animated: true)
+        navigationController?.tabBarController?.tabBar.isHidden = false
     }
     
 

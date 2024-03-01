@@ -15,10 +15,10 @@ class MainViewController: UIViewController {
     var tipCartoonAvatar = UIImageView()
     //卡通头像入口
     var cartoonInter = UIButton()
-    var cartoonHeadCollageVC = UIViewController()
+//    var CollageViewController = UIViewController()
     //真实头像入口
     var realInter = UIButton()
-    var realHeadCollageVC = UIViewController()
+//    var realHeadCollageVC = UIViewController()
     
     override func viewWillAppear(_ animated: Bool) {
         setUI()
@@ -88,15 +88,22 @@ class MainViewController: UIViewController {
 
     @objc func toRealHeadCollage(){
         // 创建下一个视图控制器
-        let nextViewController = realHeadCollageVC
+        let nextViewController = CollageViewController()
+//        nextViewController.modalPresentationStyle = .fullScreen
+        nextViewController.view.backgroundColor = UIColor.init(hexString: "#E5FDFF")
+        navigationController?.tabBarController?.tabBar.isHidden = true
+
+//        navigationController?.title = "Hand"
         // 推入下一个视图控制器
         navigationController?.pushViewController(nextViewController, animated: true)
     }
     @objc func toCartoonHeadCollage(){
-        let nextViewController = cartoonHeadCollageVC
+        let nextViewController = CollageViewController()
+        nextViewController.view.backgroundColor = UIColor.init(hexString: "#E5FDFF")
+        navigationController?.tabBarController?.tabBar.isHidden = true
+
         // 推入下一个视图控制器
         navigationController?.pushViewController(nextViewController, animated: true)
-        
     }
 
     /*
