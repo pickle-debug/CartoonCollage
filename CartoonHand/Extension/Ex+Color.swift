@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+
 //MARK: -  UIColor -> Hex String
 extension UIColor {
      
@@ -64,5 +65,26 @@ extension UIColor {
                 Int(alpha * multiplier)
             )
         }
+    }
+}
+
+// 渐变色
+extension UIColor {
+    
+    static func gradientImage(withSize size: CGSize, colors: [UIColor], locations: [NSNumber]? = nil) -> UIImage? {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(origin: .zero, size: size)
+        gradientLayer.colors = colors.map { $0.cgColor }
+        if let locations = locations {
+            gradientLayer.locations = locations
+        }
+
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        gradientLayer.render(in: context)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return image
     }
 }

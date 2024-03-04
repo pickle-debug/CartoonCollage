@@ -83,7 +83,7 @@ class MainViewController: UIViewController {
             view.leading == tip.leading
             view.top == tip.bottom + 48
         }
-        
+    
     }
 
     @objc func toRealHeadCollage(){

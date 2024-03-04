@@ -23,6 +23,9 @@
 		C975D3B62B91A07600E6778D /* Ex+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3B52B91A07600E6778D /* Ex+UIView.swift */; };
 		C975D3B82B91A51200E6778D /* CCSegmentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3B72B91A51200E6778D /* CCSegmentController.swift */; };
 		C975D3BD2B91ABD500E6778D /* CollageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3BC2B91ABD500E6778D /* CollageCollectionViewCell.swift */; };
+		C975D3C72B95A93300E6778D /* CCBackgroundEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3C62B95A93200E6778D /* CCBackgroundEditView.swift */; };
+		C975D3C92B95B83C00E6778D /* CCTextEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3C82B95B83C00E6778D /* CCTextEditViewController.swift */; };
+		C975D3CB2B95CC2500E6778D /* CCImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3CA2B95CC2500E6778D /* CCImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +47,9 @@
 		C975D3B52B91A07600E6778D /* Ex+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIView.swift"; sourceTree = "<group>"; };
 		C975D3B72B91A51200E6778D /* CCSegmentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCSegmentController.swift; sourceTree = "<group>"; };
 		C975D3BC2B91ABD500E6778D /* CollageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCollectionViewCell.swift; sourceTree = "<group>"; };
+		C975D3C62B95A93200E6778D /* CCBackgroundEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCBackgroundEditView.swift; sourceTree = "<group>"; };
+		C975D3C82B95B83C00E6778D /* CCTextEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCTextEditViewController.swift; sourceTree = "<group>"; };
+		C975D3CA2B95CC2500E6778D /* CCImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +90,7 @@
 				C975D3B12B90693B00E6778D /* RealHeadCollageViewController.swift */,
 				C975D3B32B90695B00E6778D /* CollageViewController.swift */,
 				C975D3BC2B91ABD500E6778D /* CollageCollectionViewCell.swift */,
-				C975D3B92B91A55E00E6778D /* Class */,
+				C975D3B92B91A55E00E6778D /* Module */,
 				C975D3A82B90358D00E6778D /* RecordViewController.swift */,
 				C975D3AA2B90359C00E6778D /* StoreViewController.swift */,
 				C975D3982B90294E00E6778D /* Main.storyboard */,
@@ -105,12 +111,15 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		C975D3B92B91A55E00E6778D /* Class */ = {
+		C975D3B92B91A55E00E6778D /* Module */ = {
 			isa = PBXGroup;
 			children = (
 				C975D3B72B91A51200E6778D /* CCSegmentController.swift */,
+				C975D3CA2B95CC2500E6778D /* CCImageView.swift */,
+				C975D3C62B95A93200E6778D /* CCBackgroundEditView.swift */,
+				C975D3C82B95B83C00E6778D /* CCTextEditViewController.swift */,
 			);
-			path = Class;
+			path = Module;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,13 +193,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C975D3CB2B95CC2500E6778D /* CCImageView.swift in Sources */,
 				C975D3B62B91A07600E6778D /* Ex+UIView.swift in Sources */,
 				C975D3AF2B905A4300E6778D /* Ex+Color.swift in Sources */,
 				C975D3BD2B91ABD500E6778D /* CollageCollectionViewCell.swift in Sources */,
 				C975D3B42B90695B00E6778D /* CollageViewController.swift in Sources */,
 				C975D3A72B902E9200E6778D /* MainViewController.swift in Sources */,
 				C975D3B22B90693B00E6778D /* RealHeadCollageViewController.swift in Sources */,
+				C975D3C92B95B83C00E6778D /* CCTextEditViewController.swift in Sources */,
 				C975D3B82B91A51200E6778D /* CCSegmentController.swift in Sources */,
+				C975D3C72B95A93300E6778D /* CCBackgroundEditView.swift in Sources */,
 				C975D3AD2B9051B200E6778D /* Ex+Layout.swift in Sources */,
 				C975D3972B90294E00E6778D /* ViewController.swift in Sources */,
 				C975D3AB2B90359C00E6778D /* StoreViewController.swift in Sources */,
