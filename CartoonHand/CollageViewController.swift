@@ -51,7 +51,20 @@ class CollageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 创建一个带有自定义图标的UIBarButtonItem
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(systemName: "arrow.down.to.line"), for: .normal) // 使用自己的图标名替换"yourCustomIcon"
+        button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(saveImage), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: button)
         
+        // 将UIBarButtonItem赋值给navigationItem的rightBarButtonItem
+        self.navigationItem.rightBarButtonItem = item
+        
+        
+        self.navigationItem.title = "Hand"
+    
         // 添加 UICollectionView
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -125,19 +138,18 @@ class CollageViewController: UIViewController {
             let colorView = CCBackgroundEditView()
             editView.addSubview(colorView)
             colorView.layout { view in
-                view.height == 62
-                view.leading == editView.leading
-                view.top == editView.top + 57
+                view.height == 307
+                view.width == editView.width
                 view.centerX == editView.centerX
             }
             
-            editView.addSubview(collectionView)
-            collectionView.layout { view in
-                view.height == editView.width
-                view.height == editView.height
-                view.top == colorView.bottom + 20
-                view.centerX == editView.centerX
-            }
+//            editView.addSubview(collectionView)
+//            collectionView.layout { view
+//                view.height == editView.width
+//                view.height == editView.height
+//                view.top == colorView.bottom + 20
+//                view.centerX == editView.centerX
+//            }
             
         case 4:
             let textEdit = CCTextEditView()
@@ -151,6 +163,13 @@ class CollageViewController: UIViewController {
         default:
             0
         }
+    }
+    
+    // 定义点击事件的方法
+    @objc func saveImage() {
+        // 在这里实现按钮点击后你想执行的操作
+        contentView.snapshot()
+        print("saveImage")
     }
     
     @objc func segmentDidchange(_ segmented: UISegmentedControl) {
@@ -169,14 +188,11 @@ class CollageViewController: UIViewController {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
         view.addGestureRecognizer(panGesture)
 
-        // 添加缩放手势
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture(_:)))
-        view.addGestureRecognizer(pinchGesture)
-
         view.isUserInteractionEnabled = true
     }
 
     @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        
         guard let viewToMove = gesture.view else { return }
         let translation = gesture.translation(in: viewToMove.superview)
         let proposedNewCenter = CGPoint(x: viewToMove.center.x + translation.x, y: viewToMove.center.y + translation.y)
@@ -195,93 +211,24 @@ class CollageViewController: UIViewController {
             viewToMove.center = CGPoint(x: clampedX, y: clampedY)
             gesture.setTranslation(.zero, in: viewToMove.superview)
         }
-    }
-    @objc func handlePinchGesture(_ gesture: UIPinchGestureRecognizer) {
-        guard let viewToZoom = gesture.view else { return }
-
-        if gesture.state == .began || gesture.state == .changed {
-            let scale = gesture.scale
-            let currentScale = viewToZoom.frame.size.width / viewToZoom.bounds.size.width
-            var newScale = currentScale * scale
-
-            // 设置最小和最大缩放限制
-            let minScale: CGFloat = 0.5
-            let maxScale: CGFloat = 2.0
-
-            newScale = min(newScale, maxScale)
-            newScale = max(newScale, minScale)
-
-            let transform = viewToZoom.transform.scaledBy(x: newScale / currentScale, y: newScale / currentScale)
-            
-            // 检查放大后的frame是否超出contentView的边界
-            let futureFrame = viewToZoom.frame.applying(transform)
-            if contentView.bounds.contains(futureFrame) {
-                viewToZoom.transform = transform
-            }
-
-            gesture.scale = 1.0
-        }
-    }
-
-    func addDashedBorder(to view: UIView) {
-        let borderLayer = CAShapeLayer()
-        borderLayer.strokeColor = UIColor.gray.cgColor
-        borderLayer.lineDashPattern = [4, 2]
-        borderLayer.frame = view.bounds
-        borderLayer.fillColor = nil
-        borderLayer.path = UIBezierPath(rect: view.bounds).cgPath
-        view.layer.addSublayer(borderLayer)
-    }
-    
-    func addResizeAndDeleteIcons(to view: UIView) {
-        let resizeIcon = UIImageView(image: UIImage(named: "resizeIcon"))
-        resizeIcon.isUserInteractionEnabled = true
-        let deleteIcon = UIImageView(image: UIImage(named: "deleteIcon"))
-        deleteIcon.isUserInteractionEnabled = true
-
-        // 添加拖动手势到resizeIcon
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleResizeGesture(_:)))
-        resizeIcon.addGestureRecognizer(panGesture)
         
-        // 添加点击手势到deleteIcon
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDeleteTap(_:)))
-        deleteIcon.addGestureRecognizer(tapGesture)
+    }
 
-        view.addSubview(resizeIcon)
+    func addIconsTo(view: UIView) {
+        let deleteIcon = UIButton(frame: CGRect(x: view.bounds.width, y: view.bounds.height, width: 15, height: 15))
+        deleteIcon.setImage(UIImage(systemName: "multiply"), for: .normal)
+        deleteIcon.tintColor = UIColor.black
+        deleteIcon.addTarget(self, action: #selector(deleteSubview(_:)), for: .touchUpInside)
+        
         view.addSubview(deleteIcon)
-
-        // 配置icon位置
-        resizeIcon.translatesAutoresizingMaskIntoConstraints = false
-        deleteIcon.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            resizeIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
-            resizeIcon.topAnchor.constraint(equalTo: view.topAnchor, constant: 5),
-            deleteIcon.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            deleteIcon.topAnchor.constraint(equalTo: view.topAnchor, constant: 5)
-        ])
+        view.bringSubviewToFront(deleteIcon)
     }
     
-    @objc func handleResizeGesture(_ gesture: UIPanGestureRecognizer) {
-        guard let resizeIcon = gesture.view, let targetView = resizeIcon.superview else { return }
-        if gesture.state == .changed {
-            let translation = gesture.translation(in: targetView)
-            let newWidth = targetView.frame.width + translation.x
-            let newHeight = targetView.frame.height + translation.y
-            targetView.frame.size = CGSize(width: newWidth, height: newHeight)
-            gesture.setTranslation(CGPoint.zero, in: targetView)
-            // 更新边框
-            targetView.layer.sublayers?.forEach { if $0 is CAShapeLayer { $0.removeFromSuperlayer() } }
-            addDashedBorder(to: targetView)
-        }
+
+    @objc func deleteSubview(_ sender: UIButton) {
+        print("delete")
+        sender.superview?.removeFromSuperview()
     }
-
-    @objc func handleDeleteTap(_ gesture: UITapGestureRecognizer) {
-        gesture.view?.superview?.removeFromSuperview()
-    }
-
-
-
-
     
     @objc func backButtonTapped() {
         // 返回上一个视图控制器
@@ -338,27 +285,44 @@ extension CollageViewController: UICollectionViewDelegateFlowLayout, UICollectio
             selectedImage = HeadImages[indexPath.item]
         case 2:
             selectedImage = BackgroundImages[indexPath.item]
+            addImageToContentView(selectedImage, matchContentViewSize: true)
+            return
         case 3:
             selectedImage = stickerImages[indexPath.item]
         default:
-            break
+            return
         }
-
-        let selectedImageView = UIImageView()
-        selectedImageView.image = selectedImage
-        // 将选中的图片设置到imageView上
-        contentView.addSubview(selectedImageView)
-        selectedImageView.layout { view in
-            view.centerX == contentView.centerX
-            view.centerY == contentView.centerY
-        }
-        // 只为新添加的imageView添加拖动手势
-        addDashedBorder(to: selectedImageView)
-        addResizeAndDeleteIcons(to: selectedImageView)
-        addGestures(to: selectedImageView)
+        
+        addImageToContentView(selectedImage, matchContentViewSize: false)
     }
 
-    
+    func addImageToContentView(_ image: UIImage?, matchContentViewSize: Bool) {
+        guard let selectedImage = image else { return }
+        let selectedImageView = UIImageView(image: selectedImage)
+        
+        contentView.addSubview(selectedImageView)
+        
+        if matchContentViewSize {
+            selectedImageView.layout { view in
+                view.height == contentView.height
+                view.width == contentView.width
+                view.centerX == contentView.centerX
+                view.centerY == contentView.centerY
+            }
+        } else {
+            selectedImageView.layout { view in
+                view.centerX == contentView.centerX
+                view.centerY == contentView.centerY
+            }
+        }
+
+        // 通用配置，为imageView添加手势和icon
+        // 注意：BackgroundImages的情况可能不需要这些，根据需求调整
+        if !matchContentViewSize {
+            addGestures(to: selectedImageView)
+            addIconsTo(view: selectedImageView)
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // 根据需要返回单元格的大小

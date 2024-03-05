@@ -8,12 +8,15 @@
 import UIKit
 
 class CCTextEditView: UIView {
-
+    // 定义闭包类型的属性，这个闭包接受一个String参数并返回Void
+    var textDidUpdate: ((String) -> Void)?
+    
+    
     let colorLabel = UILabel()
     let fontLabel = UILabel()
     let textEditTF = UITextField()
     // 创建渐变色UIImage
-    let colors: [UIColor] = [UIColor.init(hexString: "#000000"),UIColor.init(hexString: "#FFFFFF"),UIColor.init(hexString: "#EB5050"),UIColor.init(hexString: "#EA4FD1"),UIColor.init(hexString: "#EA4FD1"),UIColor.init(hexString: "#50BEEB"),UIColor.init(hexString: "#50EA87"),UIColor.init(hexString: "#EAC350")]
+    let colors: [UIColor] = [UIColor.init(hexString: "#000000"),UIColor.init(hexString: "#FFFFFF"),UIColor.gray,UIColor.green,UIColor.purple,UIColor.init(hexString: "#EB5050"),UIColor.init(hexString: "#EA4FD1"),UIColor.init(hexString: "#624FEC"),UIColor.init(hexString: "#50BEEB"),UIColor.init(hexString: "#50EA87"),UIColor.init(hexString: "#EAC350")]
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -25,77 +28,93 @@ class CCTextEditView: UIView {
     }
     
     func setupUI() {
-        var previousView: UIView?
-        
-        let colorLabel = UILabel()
-        let coloricon = UIImageView()
-        colorLabel.text = "Color"
-        colorLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        coloricon.image = UIImage(named: "coloricon")
-        self.addSubview(coloricon)
+        // 创建并配置colorLabel和colorIcon
+        let colorIcon = createIcon(named: "coloricon")
+        let colorLabel = createLabel(text: "Color", fontSize: 18)
+        self.addSubview(colorIcon)
         self.addSubview(colorLabel)
-        coloricon.layout { view in
+        
+        colorIcon.layout { view in
             view.height == 20
             view.width == 20
             view.leading == self.leading + 16
             view.top == self.top + 61
         }
         colorLabel.layout { view in
-            view.height == 21
-            view.width == 48
-            view.leading == coloricon.trailing + 11
-            view.centerY == coloricon.centerY
-
+            view.leading == colorIcon.trailing + 11
+            view.centerY == colorIcon.centerY
         }
         
-        let fontLabel = UILabel()
-        let fonticon = UIImageView()
-        fontLabel.text = "Font Style"
-        fontLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        fonticon.image = UIImage(named: "fonticon")
-        self.addSubview(fonticon)
-        self.addSubview(fontLabel)
+        let scrollView = UIScrollView()
+        var totalWidth: CGFloat = 12 // 初始左边距
 
-        fonticon.layout { view in
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        self.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.layout { view in
+            view.height == 50
+            view.width == self.width
+            view.top == colorLabel.bottom + 9
+            view.leading == self.leading
+        }
+        
+        
+        // 创建并配置fontLabel和fontIcon
+        let fontIcon = createIcon(named: "fonticon")
+        let fontLabel = createLabel(text: "Font Style", fontSize: 18)
+        self.addSubview(fontIcon)
+        self.addSubview(fontLabel)
+        
+        fontIcon.layout { view in
             view.height == 20
             view.width == 20
-            view.leading == self.leading + 16
-            view.top == self.top + 140
+            view.leading == colorIcon.leading
+            view.top == scrollView.bottom + 9 // Adjust the gap between items as needed
         }
         fontLabel.layout { view in
-            view.height == 21
-            view.width == 90
-            view.leading == fonticon.trailing + 1
-            view.centerY == fonticon.centerY
+            view.leading == fontIcon.trailing + 11
+            view.centerY == fontIcon.centerY
         }
         
-        
-        
+        var previousView: UIView?
         for color in colors {
-            let view = UIView()
-            view.backgroundColor = color
-            self.addSubview(view)
+            let colorView = UIView()
+            colorView.backgroundColor = color
+            colorView.layer.borderColor = UIColor.init(hexString: "#A8A8A8").cgColor
+            colorView.layer.borderWidth = 1
+            scrollView.addSubview(colorView)
             
-            view.layout { view in
+            colorView.layout { view in
                 view.height == 36
                 view.width == 36
             }
-            if let previousView = previousView {
-            
-                view.layout { view in
-                    view.leading == previousView.trailing + 12
-                    view.top == coloricon.bottom + 9
-                }
-            } else {
-                view.layout { view in
-                    view.leading == self.leading + 12
-                    view.top == coloricon.bottom + 9
-                }
+                if let previousView = previousView {
+                    colorView.layout { view in
+                        view.leading == previousView.trailing + 12
+                        view.centerY == scrollView.centerY // Adjust the vertical position based on your layout
+                    }
+                } else {
+                    colorView.layout { view in
+                        view.leading == scrollView.leading + 12
+                        view.centerY == scrollView.centerY // Adjust the vertical position based on your layout
+                    }
             }
-            
-            previousView = view
+            totalWidth += 36 + 12
+            previousView = colorView
         }
         
+        // Ensure scrollView can scroll if content is larger than its frame
+        if let lastView = previousView {
+            totalWidth += 12
+            scrollView.layout { view in
+                view.trailing == lastView.trailing + 12
+            }
+        }
+        
+        scrollView.contentSize = CGSize(width: totalWidth, height: self.frame.height)
+
+        // Add textEditTF to scrollView
         self.addSubview(textEditTF)
         textEditTF.layer.borderWidth = 2
         textEditTF.layer.borderColor = UIColor.black.cgColor
@@ -104,9 +123,30 @@ class CCTextEditView: UIView {
         textEditTF.layout { view in
             view.height == 41
             view.width == 287
-            view.leading == self.leading + 16
+            view.leading == scrollView.leading + 16
             view.bottom == self.bottom - 34
         }
     }
+
+    // Helper functions to reduce redundancy
+    func createLabel(text: String, fontSize: CGFloat) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: fontSize, weight: .semibold)
+        return label
+    }
+
+    func createIcon(named imageName: String) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: imageName)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }
+
+    @objc private func submitButtonTapped() {
+           // 当textField的内容变化时，触发闭包
+        textDidUpdate?(textEditTF.text ?? "")
+        print(textDidUpdate)
+       }
 
 }
