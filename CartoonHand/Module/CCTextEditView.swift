@@ -11,7 +11,6 @@ class CCTextEditView: UIView {
     // 定义闭包类型的属性，这个闭包接受一个String参数并返回Void
     var textDidUpdate: ((String) -> Void)?
     
-    
     let colorLabel = UILabel()
     let fontLabel = UILabel()
     let textEditTF = UITextField()
@@ -58,7 +57,6 @@ class CCTextEditView: UIView {
             view.top == colorLabel.bottom + 9
             view.leading == self.leading
         }
-        
         
         // 创建并配置fontLabel和fontIcon
         let fontIcon = createIcon(named: "fonticon")
@@ -113,8 +111,16 @@ class CCTextEditView: UIView {
         }
         
         scrollView.contentSize = CGSize(width: totalWidth, height: self.frame.height)
+        
+        let textfontSelectView = CCFontSelectionView()
+        self.addSubview(textfontSelectView)
+        textfontSelectView.layout { view in
+            view.height == 36
+            view.width == self.width
+            view.top == fontLabel.bottom + 9
+            view.leading == self.leading + 16
+        }
 
-        // Add textEditTF to scrollView
         self.addSubview(textEditTF)
         textEditTF.layer.borderWidth = 2
         textEditTF.layer.borderColor = UIColor.black.cgColor
@@ -126,7 +132,40 @@ class CCTextEditView: UIView {
             view.leading == scrollView.leading + 16
             view.bottom == self.bottom - 34
         }
+        // 创建并配置inputAccessoryView
+                let accessoryView = createInputAccessoryView()
+        textEditTF.inputAccessoryView = accessoryView
+        
     }
+    func createInputAccessoryView() -> UIView {
+          let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 50))
+        accessoryView.backgroundColor = UIColor.lightGray
+          
+          // 创建一个“Done”按钮，用于关闭键盘
+          let doneButton = UIButton(type: .system)
+          doneButton.frame = CGRect(x: accessoryView.frame.width - 70, y: 10, width: 60, height: 30)
+          doneButton.setTitle("Done", for: .normal)
+          doneButton.addTarget(self, action: #selector(dismissKeyboard), for: .touchUpInside)
+          accessoryView.addSubview(doneButton)
+          
+        // 创建额外的输入框
+           let extraTextField = UITextField(frame: CGRect(x: 10, y: 10, width: accessoryView.frame.width - 90, height: 30))
+           extraTextField.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
+           accessoryView.addSubview(extraTextField)
+          
+          return accessoryView
+      }
+    
+    @objc func textFieldEditingChanged(_ textField: UITextField) {
+        DispatchQueue.main.async { [weak self] in
+            // 将 extraTextField 的内容同步到 textEditTF 中
+            self?.textEditTF.text = textField.text
+        }
+    }
+
+      @objc func dismissKeyboard() {
+          self.endEditing(true)
+      }
 
     // Helper functions to reduce redundancy
     func createLabel(text: String, fontSize: CGFloat) -> UILabel {

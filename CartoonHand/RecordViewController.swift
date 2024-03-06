@@ -15,18 +15,45 @@ class RecordViewController: UIViewController {
     
     let emptyTip = UILabel()
 
+    var images: [UIImage] = []
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+
     override func viewDidAppear(_ animated: Bool) {
-        setUI()
+//        loadImagesFromDocumentsDirectory()
+//
+//        setUI()
+        self.view.backgroundColor = UIColor.init(hexString: "#F4FFFF")
+
+        loadImages()
+        if images.isEmpty {
+            setEmptyUI()
+        } else {
+            setupUI()
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-    
-    func setUI(){
+    func loadImages() {
+            let fileManager = FileManager.default
+            let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            
+            do {
+                let filePaths = try fileManager.contentsOfDirectory(atPath: documentsPath)
+                for filePath in filePaths {
+                    let fullPath = (documentsPath as NSString).appendingPathComponent(filePath)
+                    if let image = UIImage(contentsOfFile: fullPath) {
+                        images.append(image)
+                    }
+                }
+            } catch {
+                print("Could not retrieve files: \(error.localizedDescription)")
+            }
+        }
+    func setEmptyUI(){
         
-        self.view.backgroundColor = UIColor.init(hexString: "#F4FFFF")
         self.view.addSubview(titleLabel)
         titleLabel.text = "History"
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
@@ -55,6 +82,22 @@ class RecordViewController: UIViewController {
         }
     }
     
+    func setupUI() {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 166, height: 166)
+        
+        let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        view.addSubview(collectionView)
+        collectionView.layout { view in
+            view.top == view.superview.top + 120
+            view.width == 343
+            view.centerX == view.superview.centerX
+        }
+    }
+    
 
     /*
     // MARK: - Navigation
@@ -66,4 +109,17 @@ class RecordViewController: UIViewController {
     }
     */
 
+}
+extension RecordViewController: UICollectionViewDelegate,UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+           return images.count
+       }
+
+       func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+           let imageView = UIImageView(image: images[indexPath.row])
+           imageView.frame = CGRect(x: 0, y: 0, width: 167, height: 167)
+           cell.contentView.addSubview(imageView)
+           return cell
+       }
 }

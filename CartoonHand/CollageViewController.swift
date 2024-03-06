@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import Photos
 
-class CollageViewController: UIViewController {
+class CollageViewController: UIViewController,CCBackgroundEditViewDelegate {
     
     let contentView = UIView()
     private var currentIndex = 0
@@ -23,7 +24,7 @@ class CollageViewController: UIViewController {
     let segmentItem = ["Body","Head","Background","Sticker","Text"]
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    
+
     
     private lazy var control: CCSegmentedControl = {
         let items: [UIImage] = segmentItem.compactMap { itemName in
@@ -62,26 +63,8 @@ class CollageViewController: UIViewController {
         // 将UIBarButtonItem赋值给navigationItem的rightBarButtonItem
         self.navigationItem.rightBarButtonItem = item
         
-        
         self.navigationItem.title = "Hand"
     
-        // 添加 UICollectionView
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .white
-        collectionView.layer.cornerRadius = 60
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(CollageCollectionViewCell.self, forCellWithReuseIdentifier: "CollageCollectionViewCell")
-        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.scrollDirection = .vertical
-            flowLayout.itemSize = CGSize(width: 166, height: 166) // 设置每个单元格的大小
-            flowLayout.minimumInteritemSpacing = 11 // 设置单元格之间的最小间距
-            flowLayout.minimumLineSpacing = 16 // 设置行之间的最小间距
-            flowLayout.sectionInset = UIEdgeInsets(top: 57, left: 16, bottom: 10, right: 16) // 设置内容区域的内边距
-        }
-        //        setUI()
-        
-        // Do any additional setup after loading the view.
     }
     
     func setUI(){
@@ -126,31 +109,64 @@ class CollageViewController: UIViewController {
             editView.subviews[0].removeFromSuperview()
         }
         switch index {
-        case 0,1,3:
-            editView.addSubview(collectionView)
-            collectionView.layout { view in
+        case 0:
+            let imageSelectView = CCImageSelectView(frame: .zero, images: BodyImages)
+            editView.addSubview(imageSelectView)
+            imageSelectView.layout { view in
                 view.width == editView.width
                 view.height == editView.height
                 view.top == editView.top
                 view.centerX == editView.centerX
             }
+            // 配置闭包来接收选中的图片
+            imageSelectView.selectedPic = { [weak self] selectedImage in
+                // 在这里，我们更新imageView来展示选中的图片
+                self!.addImageToContentView(selectedImage, matchContentViewSize: false)
+                print(selectedImage)
+            }
+            
+        case 1:
+            let imageSelectView = CCImageSelectView(frame: .zero, images: HeadImages)
+            editView.addSubview(imageSelectView)
+            imageSelectView.layout { view in
+                view.width == editView.width
+                view.height == editView.height
+                view.top == editView.top
+                view.centerX == editView.centerX
+            }
+            // 配置闭包来接收选中的图片
+            imageSelectView.selectedPic = { [weak self] selectedImage in
+                // 在这里，我们更新imageView来展示选中的图片
+                self!.addImageToContentView(selectedImage, matchContentViewSize: false)
+            }
         case 2:
             let colorView = CCBackgroundEditView()
             editView.addSubview(colorView)
+            colorView.delegate = self
+            
             colorView.layout { view in
                 view.height == 307
                 view.width == editView.width
                 view.centerX == editView.centerX
             }
+            colorView.selectedBackground = { [weak self] selectedImage in
+                    self!.setBackgroundView(selectedImage)
+            }
             
-//            editView.addSubview(collectionView)
-//            collectionView.layout { view
-//                view.height == editView.width
-//                view.height == editView.height
-//                view.top == colorView.bottom + 20
-//                view.centerX == editView.centerX
-//            }
-            
+        case 3:
+            let imageSelectView = CCImageSelectView(frame: .zero, images: stickerImages)
+            editView.addSubview(imageSelectView)
+            imageSelectView.layout { view in
+                view.width == editView.width
+                view.height == editView.height
+                view.top == editView.top
+                view.centerX == editView.centerX
+            }
+            // 配置闭包来接收选中的图片
+            imageSelectView.selectedPic = { [weak self] selectedImage in
+                // 在这里，我们更新imageView来展示选中的图片
+                self!.addImageToContentView(selectedImage, matchContentViewSize: true)
+            }
         case 4:
             let textEdit = CCTextEditView()
             editView.addSubview(textEdit)
@@ -165,11 +181,15 @@ class CollageViewController: UIViewController {
         }
     }
     
+    // 实现代理方法
+    func ccBackgroundEditViewDidRequestImagePicker(_ view: CCBackgroundEditView) {
+        showImagePicker()
+    }
+    
     // 定义点击事件的方法
     @objc func saveImage() {
         // 在这里实现按钮点击后你想执行的操作
-        contentView.snapshot()
-        print("saveImage")
+        saveContentViewToImage(contentView: contentView)
     }
     
     @objc func segmentDidchange(_ segmented: UISegmentedControl) {
@@ -177,7 +197,6 @@ class CollageViewController: UIViewController {
         if let highlightedImage = UIImage(named: "\(selectedItem)_highlight") {
             segmented.setImage(highlightedImage.withRenderingMode(.alwaysOriginal), forSegmentAt: segmented.selectedSegmentIndex)
         }
-        
         setImageEditUI(index: segmented.selectedSegmentIndex)
         
     }
@@ -219,11 +238,22 @@ class CollageViewController: UIViewController {
         deleteIcon.setImage(UIImage(systemName: "multiply"), for: .normal)
         deleteIcon.tintColor = UIColor.black
         deleteIcon.addTarget(self, action: #selector(deleteSubview(_:)), for: .touchUpInside)
-        
+        deleteIcon.tag = 999
         view.addSubview(deleteIcon)
         view.bringSubviewToFront(deleteIcon)
     }
     
+    func setDeleteIconsHidden(_ hidden: Bool) {
+        // 假设deleteIcon是每个subview的子视图的标签
+        for subview in contentView.subviews {
+            // 根据您如何添加deleteIcon，找到并设置其isHidden属性
+            // 这里是一个简化的示例，您的实现可能会有所不同
+            if let deleteIcon = subview.subviews.first(where: { $0.tag == 999 }) { // 假设您给deleteIcon设置了特定的tag
+                deleteIcon.isHidden = hidden
+            }
+        }
+    }
+
 
     @objc func deleteSubview(_ sender: UIButton) {
         print("delete")
@@ -235,67 +265,7 @@ class CollageViewController: UIViewController {
         navigationController?.popViewController(animated: true)
         navigationController?.tabBarController?.tabBar.isHidden = false
     }
-}
-extension CollageViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // 返回与选定段相关联的项目数量
-        switch control.selectedSegmentIndex {
-        case 0:
-            return BodyImages.count // 第一个选项有5个项目
-        case 1:
-            return HeadImages.count // 第二个选项有8个项目
-        case 2:
-            return  BackgroundImages.count// 第三个选项有10个项目
-        case 3:
-            return stickerImages.count // 第三个选项有10个项目
-        default:
-            return 0
-        }
-    }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollageCollectionViewCell", for: indexPath) as! CollageCollectionViewCell
-        var image: UIImage?
-        
-        switch control.selectedSegmentIndex {
-        case 0:
-            image = BodyImages[indexPath.item] // 使用 BodyImages 数组
-        case 1:
-            image = HeadImages[indexPath.item] // 使用 HeadImages 数组
-        case 2:
-            
-            image = BackgroundImages[indexPath.item] // 使用 HeadImages 数组
-        case 3:
-            image = stickerImages[indexPath.item] // 使用 HeadImages 数组
-
-        default:
-            break
-        }
-        
-        cell.image = image
-        return cell
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var selectedImage: UIImage?
-
-        switch control.selectedSegmentIndex {
-        case 0:
-            selectedImage = BodyImages[indexPath.item]
-        case 1:
-            selectedImage = HeadImages[indexPath.item]
-        case 2:
-            selectedImage = BackgroundImages[indexPath.item]
-            addImageToContentView(selectedImage, matchContentViewSize: true)
-            return
-        case 3:
-            selectedImage = stickerImages[indexPath.item]
-        default:
-            return
-        }
-        
-        addImageToContentView(selectedImage, matchContentViewSize: false)
-    }
-
     func addImageToContentView(_ image: UIImage?, matchContentViewSize: Bool) {
         guard let selectedImage = image else { return }
         let selectedImageView = UIImageView(image: selectedImage)
@@ -323,9 +293,135 @@ extension CollageViewController: UICollectionViewDelegateFlowLayout, UICollectio
             addIconsTo(view: selectedImageView)
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // 根据需要返回单元格的大小
-        return CGSize(width: 166, height: 166)
+    func setBackgroundView(_ image: UIImage?){
+        guard let background = image else { return }
+        let backgroundView = UIImageView(image: background)
+        print(image)
+        backgroundView.image = image
+        backgroundView.contentMode = .scaleAspectFill // 或者选择其他适合的contentMode
+        backgroundView.clipsToBounds = true
+        contentView.addSubview(backgroundView)
+        contentView.sendSubviewToBack(backgroundView) // 确保背景视图位于最底层
+        backgroundView.layout { view in
+            view.leading == contentView.leading
+            view.trailing == contentView.trailing
+            view.top == contentView.top
+            view.bottom == contentView.bottom
+        }
     }
+}
+extension CollageViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // 显示图片选择器
+    func showImagePicker() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status == .notDetermined {
+            PHPhotoLibrary.requestAuthorization { status in
+                if status == .authorized {
+                    self.presentPicker()
+                }
+            }
+        } else if status == .authorized {
+            self.presentPicker()
+        } else {
+            // 处理未获得权限的情况
+        }
+    }
+    
+    func presentPicker() {
+        DispatchQueue.main.async {
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.delegate = self
+            self.present(picker, animated: true, completion: nil)
+        }
+    }
+    
+    
+    // 实现UIImagePickerControllerDelegate方法
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        if let image = info[.originalImage] as? UIImage {
+            // 使用选取的图片作为背景
+            setBackgroundView(image)
+            
+            // 如果您还想将图片保存到相册，可以保留下面的代码
+//            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        }
+    }
+    
+    func renderContentViewToImage(_ contentView: UIView) -> UIImage? {
+        let renderer = UIGraphicsImageRenderer(bounds: contentView.bounds)
+        return renderer.image { context in
+            contentView.layer.render(in: context.cgContext)
+        }
+    }
+
+
+    // 保存图片后的回调方法
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // 保存失败
+            print("Error Saving: \(error.localizedDescription)")
+        } else {
+            // 保存成功
+            print("Image Saved Successfully")
+        }
+    }
+    
+//    func saveImageToPhotoLibrary(_ image: UIImage) {
+//        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+//    }
+//    func saveImageToDocumentsDirectory(_ image: UIImage, fileName: String) {
+//        guard let data = image.jpegData(compressionQuality: 1) else { return } // 或使用.pngData()，取决于您的需求
+//        
+//        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+//        
+//        do {
+//            try data.write(to: fileURL)
+//            print("Image saved to Documents directory", fileURL)
+//        } catch {
+//            print("Error saving image: \(error.localizedDescription)")
+//        }
+//    }
+    func saveContentViewToImage(contentView: UIView) {
+        
+        // 隐藏deleteIcon
+        setDeleteIconsHidden(true)
+
+        // 开始图形上下文
+        UIGraphicsBeginImageContextWithOptions(contentView.bounds.size, false, UIScreen.main.scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+        
+        // 将contentView的层渲染到上下文
+        contentView.layer.render(in: context)
+        guard let capturedImage = UIGraphicsGetImageFromCurrentImageContext() else { return }
+        
+        // 结束图形上下文
+        UIGraphicsEndImageContext()
+        
+        // 显示deleteIcon
+        setDeleteIconsHidden(false)
+        
+        // 保存图片到相册
+        UIImageWriteToSavedPhotosAlbum(capturedImage, nil, nil, nil)
+        
+        // 生成唯一文件名
+        let fileName = "capturedImage_\(Date().timeIntervalSince1970).png"
+        if let data = capturedImage.pngData() {
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let filePath = documentsDirectory.appendingPathComponent(fileName)
+            
+            do {
+                // 写入数据到沙盒路径
+                try data.write(to: filePath)
+                print("Saved image to: \(filePath)")
+            } catch {
+                print("Could not save image: \(error)")
+            }
+        }
+    }
+
+
 }
