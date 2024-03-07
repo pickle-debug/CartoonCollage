@@ -19,20 +19,20 @@ class MainViewController: UIViewController {
     //真实头像入口
     var realInter = UIButton()
 //    var realHeadCollageVC = UIViewController()
+
     
     override func viewWillAppear(_ animated: Bool) {
-        setUI()
-        
+        self.tabBarController?.tabBar.isHidden = false
+        self.view.backgroundColor = UIColor.init(hexString: "#F4FFFF")
+
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        setUI()
+
         // Do any additional setup after loading the view.
     }
     func setUI(){
-        
-        self.view.backgroundColor = UIColor.init(hexString: "#F4FFFF")
-        
         //MARK: - 顶部装饰性tip
         self.view.addSubview(tipBackGround)
         tipBackGround.image = UIImage(named: "Group 44")
@@ -88,17 +88,16 @@ class MainViewController: UIViewController {
 
     @objc func toRealHeadCollage(){
         // 创建下一个视图控制器
-        let nextViewController = CollageViewController()
+        let nextViewController = CollageViewController(images: RealHeadImages)
 //        nextViewController.modalPresentationStyle = .fullScreen
         nextViewController.view.backgroundColor = UIColor.init(hexString: "#E5FDFF")
         navigationController?.tabBarController?.tabBar.isHidden = true
 
-//        navigationController?.title = "Hand"
         // 推入下一个视图控制器
         navigationController?.pushViewController(nextViewController, animated: true)
     }
     @objc func toCartoonHeadCollage(){
-        let nextViewController = CollageViewController()
+        let nextViewController = CollageViewController(images: HeadImages)
         nextViewController.view.backgroundColor = UIColor.init(hexString: "#E5FDFF")
         navigationController?.tabBarController?.tabBar.isHidden = true
 

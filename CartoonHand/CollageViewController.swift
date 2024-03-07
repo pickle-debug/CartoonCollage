@@ -12,10 +12,8 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate {
     
     let contentView = UIView()
     private var currentIndex = 0
-    let stickerImages: [UIImage] = (0...14).compactMap { UIImage(named: "Stickers\($0)") }
-    let BodyImages: [UIImage] = (0...7).compactMap { UIImage(named: "CartoonBody\($0)") }
-    let HeadImages: [UIImage] = (0...7).compactMap { UIImage(named: "CartoonHead\($0)") }
-    let BackgroundImages: [UIImage] = (1...8).compactMap { UIImage(named: "Background\($0)") }
+    
+    var images: [UIImage]
     
     let editView = UIView()
     
@@ -23,8 +21,15 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate {
     
     let segmentItem = ["Body","Head","Background","Sticker","Text"]
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    // 自定义初始化方法
+    init(images: [UIImage]) {
+        self.images = images
+        super.init(nibName: nil, bundle: nil)
+    }
     
-
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var control: CCSegmentedControl = {
         let items: [UIImage] = segmentItem.compactMap { itemName in
@@ -34,9 +39,7 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate {
             return nil
         }
         let control = CCSegmentedControl(items: items)
-        
-        
-        
+                
         //  默认选中第一项
         control.selectedSegmentIndex = 0
         // 设置选中时的背景色为透明
@@ -47,10 +50,20 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate {
     }()
     
     override func viewDidAppear(_ animated: Bool) {
-        setUI()
+        self.tabBarController?.tabBar.isHidden = true
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let titleLabel = UILabel()
+
+        self.view.addSubview(titleLabel)
+        titleLabel.text = "Hand"
+        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
+        titleLabel.layout { view in
+            view.centerX == view.superview.centerX
+            view.top == view.superview.top + 60
+        }
         
         // 创建一个带有自定义图标的UIBarButtonItem
         let button = UIButton(type: .custom)
@@ -60,17 +73,16 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate {
         button.addTarget(self, action: #selector(saveImage), for: .touchUpInside)
         let item = UIBarButtonItem(customView: button)
         
+        
         // 将UIBarButtonItem赋值给navigationItem的rightBarButtonItem
         self.navigationItem.rightBarButtonItem = item
         
-        self.navigationItem.title = "Hand"
-    
+        setUI()
+
     }
     
     func setUI(){
-        
-        //        self.view.backgroundColor = UIColor.init(hexString: "#F4FFFF")
-        
+                
         self.view.addSubview(contentView)
         contentView.backgroundColor = UIColor.white
         contentView.layout { view in
@@ -126,7 +138,7 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate {
             }
             
         case 1:
-            let imageSelectView = CCImageSelectView(frame: .zero, images: HeadImages)
+            let imageSelectView = CCImageSelectView(frame: .zero, images: images)
             editView.addSubview(imageSelectView)
             imageSelectView.layout { view in
                 view.width == editView.width
@@ -369,22 +381,6 @@ extension CollageViewController: UIImagePickerControllerDelegate, UINavigationCo
         }
     }
     
-//    func saveImageToPhotoLibrary(_ image: UIImage) {
-//        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-//    }
-//    func saveImageToDocumentsDirectory(_ image: UIImage, fileName: String) {
-//        guard let data = image.jpegData(compressionQuality: 1) else { return } // 或使用.pngData()，取决于您的需求
-//        
-//        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-//        let fileURL = documentsDirectory.appendingPathComponent(fileName)
-//        
-//        do {
-//            try data.write(to: fileURL)
-//            print("Image saved to Documents directory", fileURL)
-//        } catch {
-//            print("Error saving image: \(error.localizedDescription)")
-//        }
-//    }
     func saveContentViewToImage(contentView: UIView) {
         
         // 隐藏deleteIcon

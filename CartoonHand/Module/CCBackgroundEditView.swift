@@ -19,20 +19,7 @@ class CCBackgroundEditView: UIView {
     
     weak var delegate: CCBackgroundEditViewDelegate?
 
-    // 创建渐变色UIImage
-    let gradientImages: [UIImage?] = [
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#FED267"), UIColor.init(hexString: "#F5B44A")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#C6A0FC"), UIColor.init(hexString: "#AA84F3")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#CEFFFF"), UIColor.init(hexString: "#AEFBFC")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#CED6FF"), UIColor.init(hexString: "#AECDFC")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#CEFFD9"), UIColor.init(hexString: "#AEFCBF")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#FFCEF7"), UIColor.init(hexString: "#DEAEFC")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#00EBFB"), UIColor.init(hexString: "#40BCFB")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#01EF93"), UIColor.init(hexString: "#0CFACC")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#FC7C90"), UIColor.init(hexString: "#F9D361")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#AECAFA"), UIColor.init(hexString: "#7B7BFA")]),
-        UIColor.gradientImage(withSize: CGSize(width: 46, height: 46), colors: [UIColor.init(hexString: "#F0F893"), UIColor.init(hexString: "#9BFDBE")])
-    ]
+   
     
     let BackgroundImages: [UIImage] = (1...8).compactMap { UIImage(named: "Background\($0)") }
     
@@ -231,52 +218,3 @@ extension CCBackgroundEditView: UICollectionViewDelegate,UICollectionViewDataSou
         return CGSize(width: 166, height: 166)
     }
 }
-//extension CCBackgroundEditView: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//    // 显示图片选择器
-//    func showImagePicker() {
-//        let status = PHPhotoLibrary.authorizationStatus()
-//        if status == .notDetermined {
-//            PHPhotoLibrary.requestAuthorization { status in
-//                if status == .authorized {
-//                    self.presentPicker()
-//                }
-//            }
-//        } else if status == .authorized {
-//            self.presentPicker()
-//        } else {
-//            // 处理未获得权限的情况
-//        }
-//    }
-//    
-//    func presentPicker() {
-//        DispatchQueue.main.async {
-//            let picker = UIImagePickerController()
-//            picker.sourceType = .photoLibrary
-//            picker.delegate = self
-//            self.present(picker, animated: true, completion: nil)
-//        }
-//    }
-//    
-//    
-//    // 实现UIImagePickerControllerDelegate方法
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//        picker.dismiss(animated: true, completion: nil)
-//        
-//        if let image = info[.originalImage] as? UIImage {
-//            // 使用选取的图片
-//            // 保存图片到相册
-//            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-//        }
-//    }
-//    
-//    // 保存图片后的回调方法
-//    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-//        if let error = error {
-//            // 保存失败
-//            print("Error Saving: \(error.localizedDescription)")
-//        } else {
-//            // 保存成功
-//            print("Image Saved Successfully")
-//        }
-//    }
-//}

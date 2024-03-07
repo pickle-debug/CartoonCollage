@@ -17,24 +17,30 @@ class RecordViewController: UIViewController {
 
     var images: [UIImage] = []
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
 
-    override func viewDidAppear(_ animated: Bool) {
-//        loadImagesFromDocumentsDirectory()
-//
-//        setUI()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         self.view.backgroundColor = UIColor.init(hexString: "#F4FFFF")
 
+        let title = UILabel()
+        title.text = "History"
+        title.font = UIFont.systemFont(ofSize: 24,weight: .heavy)
+        title.textColor = .black
+
+        self.navigationItem.titleView = title
+        
         loadImages()
         if images.isEmpty {
             setEmptyUI()
         } else {
             setupUI()
         }
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     func loadImages() {
             let fileManager = FileManager.default
@@ -52,6 +58,7 @@ class RecordViewController: UIViewController {
                 print("Could not retrieve files: \(error.localizedDescription)")
             }
         }
+    
     func setEmptyUI(){
         
         self.view.addSubview(titleLabel)
@@ -87,28 +94,18 @@ class RecordViewController: UIViewController {
         layout.itemSize = CGSize(width: 166, height: 166)
         
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         view.addSubview(collectionView)
         collectionView.layout { view in
             view.top == view.superview.top + 120
+            view.bottom == view.superview.bottom
             view.width == 343
             view.centerX == view.superview.centerX
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 extension RecordViewController: UICollectionViewDelegate,UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -122,4 +119,17 @@ extension RecordViewController: UICollectionViewDelegate,UICollectionViewDataSou
            cell.contentView.addSubview(imageView)
            return cell
        }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("tap")
+        let nextViewController = CCRecordDetailViewController(image: images[indexPath.row])
+        nextViewController.view.backgroundColor = UIColor.init(hexString: "#E5FDFF")
+        navigationController?.tabBarController?.tabBar.isHidden = true
+
+        // 推入下一个视图控制器
+        navigationController?.pushViewController(nextViewController, animated: true)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // 根据需要返回单元格的大小
+        return CGSize(width: 166, height: 166)
+    }
 }

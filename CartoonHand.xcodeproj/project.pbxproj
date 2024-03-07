@@ -18,7 +18,6 @@
 		C975D3AB2B90359C00E6778D /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3AA2B90359C00E6778D /* StoreViewController.swift */; };
 		C975D3AD2B9051B200E6778D /* Ex+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3AC2B9051B200E6778D /* Ex+Layout.swift */; };
 		C975D3AF2B905A4300E6778D /* Ex+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3AE2B905A4300E6778D /* Ex+Color.swift */; };
-		C975D3B22B90693B00E6778D /* RealHeadCollageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3B12B90693B00E6778D /* RealHeadCollageViewController.swift */; };
 		C975D3B42B90695B00E6778D /* CollageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3B32B90695B00E6778D /* CollageViewController.swift */; };
 		C975D3B62B91A07600E6778D /* Ex+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3B52B91A07600E6778D /* Ex+UIView.swift */; };
 		C975D3B82B91A51200E6778D /* CCSegmentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3B72B91A51200E6778D /* CCSegmentController.swift */; };
@@ -27,7 +26,9 @@
 		C975D3C92B95B83C00E6778D /* CCTextEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3C82B95B83C00E6778D /* CCTextEditView.swift */; };
 		C975D3CD2B97F7BB00E6778D /* CCImageSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3CC2B97F7BB00E6778D /* CCImageSelectView.swift */; };
 		C975D3CF2B98592700E6778D /* CCFontSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3CE2B98592700E6778D /* CCFontSelectionView.swift */; };
-		C975D3D12B9865ED00E6778D /* constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3D02B9865ED00E6778D /* constant.swift */; };
+		C975D3D12B9865ED00E6778D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3D02B9865ED00E6778D /* Constant.swift */; };
+		C975D3D32B994BA800E6778D /* CCRecordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3D22B994BA800E6778D /* CCRecordDetailViewController.swift */; };
+		C975D3D52B99B44D00E6778D /* CCBuyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C975D3D42B99B44D00E6778D /* CCBuyButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +45,6 @@
 		C975D3AA2B90359C00E6778D /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		C975D3AC2B9051B200E6778D /* Ex+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Layout.swift"; sourceTree = "<group>"; };
 		C975D3AE2B905A4300E6778D /* Ex+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Color.swift"; sourceTree = "<group>"; };
-		C975D3B12B90693B00E6778D /* RealHeadCollageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealHeadCollageViewController.swift; sourceTree = "<group>"; };
 		C975D3B32B90695B00E6778D /* CollageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageViewController.swift; sourceTree = "<group>"; };
 		C975D3B52B91A07600E6778D /* Ex+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIView.swift"; sourceTree = "<group>"; };
 		C975D3B72B91A51200E6778D /* CCSegmentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCSegmentController.swift; sourceTree = "<group>"; };
@@ -53,7 +53,9 @@
 		C975D3C82B95B83C00E6778D /* CCTextEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCTextEditView.swift; sourceTree = "<group>"; };
 		C975D3CC2B97F7BB00E6778D /* CCImageSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCImageSelectView.swift; sourceTree = "<group>"; };
 		C975D3CE2B98592700E6778D /* CCFontSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCFontSelectionView.swift; sourceTree = "<group>"; };
-		C975D3D02B9865ED00E6778D /* constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constant.swift; sourceTree = "<group>"; };
+		C975D3D02B9865ED00E6778D /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		C975D3D22B994BA800E6778D /* CCRecordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCRecordDetailViewController.swift; sourceTree = "<group>"; };
+		C975D3D42B99B44D00E6778D /* CCBuyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCBuyButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,13 +88,14 @@
 		C975D3912B90294E00E6778D /* CartoonHand */ = {
 			isa = PBXGroup;
 			children = (
+				C975D3D02B9865ED00E6778D /* Constant.swift */,
 				C975D3922B90294E00E6778D /* AppDelegate.swift */,
 				C975D3B02B905A5200E6778D /* Extension */,
 				C975D3942B90294E00E6778D /* SceneDelegate.swift */,
 				C975D3962B90294E00E6778D /* ViewController.swift */,
 				C975D3A62B902E9200E6778D /* MainViewController.swift */,
-				C975D3B12B90693B00E6778D /* RealHeadCollageViewController.swift */,
 				C975D3B32B90695B00E6778D /* CollageViewController.swift */,
+				C975D3D22B994BA800E6778D /* CCRecordDetailViewController.swift */,
 				C975D3BC2B91ABD500E6778D /* CollageCollectionViewCell.swift */,
 				C975D3B92B91A55E00E6778D /* Module */,
 				C975D3A82B90358D00E6778D /* RecordViewController.swift */,
@@ -101,6 +104,7 @@
 				C975D39B2B90295000E6778D /* Assets.xcassets */,
 				C975D39D2B90295000E6778D /* LaunchScreen.storyboard */,
 				C975D3A02B90295000E6778D /* Info.plist */,
+				C975D3D42B99B44D00E6778D /* CCBuyButton.swift */,
 			);
 			path = CartoonHand;
 			sourceTree = "<group>";
@@ -122,7 +126,6 @@
 				C975D3C62B95A93200E6778D /* CCBackgroundEditView.swift */,
 				C975D3CC2B97F7BB00E6778D /* CCImageSelectView.swift */,
 				C975D3C82B95B83C00E6778D /* CCTextEditView.swift */,
-				C975D3D02B9865ED00E6778D /* constant.swift */,
 				C975D3CE2B98592700E6778D /* CCFontSelectionView.swift */,
 			);
 			path = Module;
@@ -200,12 +203,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C975D3B62B91A07600E6778D /* Ex+UIView.swift in Sources */,
-				C975D3D12B9865ED00E6778D /* constant.swift in Sources */,
+				C975D3D12B9865ED00E6778D /* Constant.swift in Sources */,
+				C975D3D52B99B44D00E6778D /* CCBuyButton.swift in Sources */,
 				C975D3AF2B905A4300E6778D /* Ex+Color.swift in Sources */,
 				C975D3BD2B91ABD500E6778D /* CollageCollectionViewCell.swift in Sources */,
 				C975D3B42B90695B00E6778D /* CollageViewController.swift in Sources */,
 				C975D3A72B902E9200E6778D /* MainViewController.swift in Sources */,
-				C975D3B22B90693B00E6778D /* RealHeadCollageViewController.swift in Sources */,
+				C975D3D32B994BA800E6778D /* CCRecordDetailViewController.swift in Sources */,
 				C975D3CD2B97F7BB00E6778D /* CCImageSelectView.swift in Sources */,
 				C975D3C92B95B83C00E6778D /* CCTextEditView.swift in Sources */,
 				C975D3B82B91A51200E6778D /* CCSegmentController.swift in Sources */,
@@ -375,8 +379,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -404,8 +407,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -133,7 +133,7 @@ class CCTextEditView: UIView {
             view.bottom == self.bottom - 34
         }
         // 创建并配置inputAccessoryView
-                let accessoryView = createInputAccessoryView()
+        let accessoryView = createInputAccessoryView()
         textEditTF.inputAccessoryView = accessoryView
         
     }

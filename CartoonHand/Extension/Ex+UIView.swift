@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension UIView {
+    
     func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: bounds,
                                 byRoundingCorners: corners,
@@ -17,23 +18,21 @@ extension UIView {
         mask.path = path.cgPath
         layer.mask = mask
     }
-}
-
-/// 截图，并保存进手机相册
-extension UIView {
-    func snapshot() {
-//        let controller = UIHostingController(rootView: self)
-//        let view = controller.view
-        
-        let targetSize = self.intrinsicContentSize
-        self.bounds = CGRect(origin: .zero, size: targetSize)
-        self.backgroundColor = .clear
-        
-        let renderer = UIGraphicsImageRenderer(size: targetSize)
-        
-        let image = renderer.image { _ in
-            self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
-        }
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-    }
+    
+    func setBackgroundImage(_ image: UIImage) {
+          // 先移除可能已经存在的背景图层
+          self.layer.sublayers?.filter { $0.name == "backgroundLayer" }.forEach { $0.removeFromSuperlayer() }
+          
+          // 创建一个新的 CALayer
+          let backgroundLayer = CALayer()
+          backgroundLayer.name = "backgroundLayer"
+          // 将 UIImage 转换为 CGImage 并设置给 layer
+          backgroundLayer.contents = image.cgImage
+          // 设置图层大小与 UIView 相同
+          backgroundLayer.frame = self.bounds
+          // 将图层的内容模式设置为视图的内容模式，这里使用 .scaleAspectFill 来保持图片的宽高比
+          backgroundLayer.contentsGravity = CALayerContentsGravity.resizeAspectFill
+          // 插入新的图层到所有子图层的下方
+          self.layer.insertSublayer(backgroundLayer, at: 0)
+      }
 }
