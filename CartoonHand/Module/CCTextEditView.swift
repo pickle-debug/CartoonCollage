@@ -9,13 +9,17 @@ import UIKit
 
 class CCTextEditView: UIView {
     // 定义闭包类型的属性，这个闭包接受一个String参数并返回Void
-    var textDidUpdate: ((String) -> Void)?
+    var textDidUpdate: ((CCSubmitText) -> Void)?
     
     let colorLabel = UILabel()
     let fontLabel = UILabel()
     let textEditTF = UITextField()
-    // 创建渐变色UIImage
-    let colors: [UIColor] = [UIColor.init(hexString: "#000000"),UIColor.init(hexString: "#FFFFFF"),UIColor.gray,UIColor.green,UIColor.purple,UIColor.init(hexString: "#EB5050"),UIColor.init(hexString: "#EA4FD1"),UIColor.init(hexString: "#624FEC"),UIColor.init(hexString: "#50BEEB"),UIColor.init(hexString: "#50EA87"),UIColor.init(hexString: "#EAC350")]
+    
+    var selectedFont = UIFont()
+    let textfontSelectView = CCFontSelectionView()
+    var selectedColor = UIColor()
+
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -83,6 +87,13 @@ class CCTextEditView: UIView {
             colorView.layer.borderWidth = 1
             scrollView.addSubview(colorView)
             
+            // 启用用户交互
+            colorView.isUserInteractionEnabled = true
+            
+            // 创建并添加手势识别器
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+            colorView.addGestureRecognizer(tapGesture)
+            
             colorView.layout { view in
                 view.height == 36
                 view.width == 36
@@ -112,7 +123,6 @@ class CCTextEditView: UIView {
         
         scrollView.contentSize = CGSize(width: totalWidth, height: self.frame.height)
         
-        let textfontSelectView = CCFontSelectionView()
         self.addSubview(textfontSelectView)
         textfontSelectView.layout { view in
             view.height == 36
@@ -132,9 +142,28 @@ class CCTextEditView: UIView {
             view.leading == scrollView.leading + 16
             view.bottom == self.bottom - 34
         }
+        
+        let submitButton = UIButton(type: .system)
+        submitButton.setTitle("OK", for: .normal)
+        submitButton.setTitleColor(.black, for: .normal)
+        submitButton.backgroundColor = .clear
+        submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
+        submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 27,weight: .bold)
+        self.addSubview(submitButton)
+        submitButton.layout { view in
+            view.height == 32
+            view.width == 41
+            view.centerY == textEditTF.centerY
+            view.trailing == self.trailing - 18
+        }
+
         // 创建并配置inputAccessoryView
         let accessoryView = createInputAccessoryView()
         textEditTF.inputAccessoryView = accessoryView
+        DispatchQueue.main.async {
+            self.textEditTF.becomeFirstResponder()
+        }
+
         
     }
     func createInputAccessoryView() -> UIView {
@@ -181,11 +210,40 @@ class CCTextEditView: UIView {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }
+    // 实现手势识别器的动作方法
+    @objc func handleTap(_ gesture: UITapGestureRecognizer) {
+        
+        if let colorView = gesture.view {
+            print(colorView.backgroundColor)
+            selectedColor = colorView.backgroundColor ?? .black
+            print(selectedColor)
+            // 这里可以处理颜色，例如打印出来或者使用闭包
+//            print("Color tapped:", color ?? "no color")
+        }
+    }
 
     @objc private func submitButtonTapped() {
            // 当textField的内容变化时，触发闭包
-        textDidUpdate?(textEditTF.text ?? "")
-        print(textDidUpdate)
+        textfontSelectView.onFontSelected = { font in
+            print("Selected font: \(font.fontName)")
+            self.selectedFont = font
+        }
+        
+        let submitText = CCSubmitText(text: textEditTF.text ?? "", font: selectedFont, color: selectedColor)
+        
+        textDidUpdate?(submitText)
+//        print(textDidUpdate)
        }
 
+}
+struct CCSubmitText {
+    let text: String
+    let font: UIFont
+    let color: UIColor
+    
+    init(text: String, font: UIFont, color: UIColor) {
+        self.text = text
+        self.font = font
+        self.color = color
+    }
 }

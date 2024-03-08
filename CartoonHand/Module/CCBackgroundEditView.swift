@@ -15,9 +15,18 @@ protocol CCBackgroundEditViewDelegate: AnyObject {
 
 
 class CCBackgroundEditView: UIView {
+//    func didFinishPickingImage(_ image: UIImage) {
+//        <#code#>
+//    }
+//    
+//    func didFailPickingImage() {
+//        <#code#>
+//    }
+    
     var selectedBackground: ((UIImage?) -> Void)?
     
     weak var delegate: CCBackgroundEditViewDelegate?
+//    let imagePickerManager = CCImagePickerManager()
 
    
     
@@ -31,6 +40,7 @@ class CCBackgroundEditView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+//        imagePickerManager.delegate = self
         setupUI()
     }
     
@@ -40,6 +50,7 @@ class CCBackgroundEditView: UIView {
     }
     
     func setupUI() {
+        
         scrollView.showsHorizontalScrollIndicator = false // 隐藏横向滚动条
         scrollView.showsVerticalScrollIndicator = false // 如果需要，也隐藏纵向滚动条
         self.addSubview(scrollView)

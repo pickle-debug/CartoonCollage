@@ -9,14 +9,17 @@ import Foundation
 import UIKit
 
 class CCRecordDetailViewController: UIViewController {
-    var image: UIImage?
+//    var image: UIImage
+//    var imageName: String
 
+    var image: loaclSandBoxImage
     let imageView = UIImageView()
     
 
        // 自定义初始化方法
-       init(image: UIImage) {
+    init(image: loaclSandBoxImage) {
            self.image = image
+//           self.imageName = imageName
            super.init(nibName: nil, bundle: nil)
        }
        
@@ -26,13 +29,23 @@ class CCRecordDetailViewController: UIViewController {
 
        override func viewDidLoad() {
            super.viewDidLoad()
+           // 创建一个带有自定义图标的UIBarButtonItem
+           let button = UIButton(type: .custom)
+           button.setImage(UIImage(named: "delete"), for: .normal) // 使用自己的图标名替换"yourCustomIcon"
+           button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+           button.tintColor = .black
+           button.addTarget(self, action: #selector(deleteImage), for: .touchUpInside)
+           let item = UIBarButtonItem(customView: button)
            
+           
+           // 将UIBarButtonItem赋值给navigationItem的rightBarButtonItem
+           self.navigationItem.rightBarButtonItem = item
            setUI()
            // 使用images数组来渲染UI
        }
     func setUI(){
         
-        imageView.image = image
+        imageView.image = image.image
         self.view.addSubview(imageView)
         imageView.layout { view in
             view.height == 343
@@ -65,7 +78,7 @@ class CCRecordDetailViewController: UIViewController {
     }
     
     @objc func shareImage() {
-        guard let image = image else { return }
+//        guard let image = image else { return }
         
         // 初始化UIActivityViewController
         let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -84,7 +97,39 @@ class CCRecordDetailViewController: UIViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
     @objc func saveImage() {
+        UIImageWriteToSavedPhotosAlbum(image.image, nil, nil, nil)
+        print("saved")
+    }
+    @objc func deleteImage() {
+        deleteImageFromSandbox(fileName: image.filename)
         
+        // Optionally, remove the image from your imagesWithFilenames array
+//        imagesWithFilenames.remove(at: index)
+    }
+
+    func deleteImageFromSandbox(fileName: String) {
+        // 获取沙盒的Documents目录路径
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Failed to access documents directory")
+            return
+        }
+        
+        // 拼接完整的文件路径
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        
+        // 检查文件是否存在
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            do {
+                // 尝试删除文件
+                try FileManager.default.removeItem(at: fileURL)
+                print("File deleted successfully: \(fileName)")
+            } catch {
+                // 删除失败，处理错误
+                print("Error deleting file: \(error.localizedDescription)")
+            }
+        } else {
+            print("File does not exist: \(fileName)")
+        }
     }
 
 }

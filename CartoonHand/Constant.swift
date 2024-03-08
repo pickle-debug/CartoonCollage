@@ -40,3 +40,11 @@ let gradientImages: [UIImage?] = [
 
 // 创建字体颜色
 let colors: [UIColor] = [UIColor.init(hexString: "#000000"),UIColor.init(hexString: "#FFFFFF"),UIColor.gray,UIColor.green,UIColor.purple,UIColor.init(hexString: "#EB5050"),UIColor.init(hexString: "#EA4FD1"),UIColor.init(hexString: "#624FEC"),UIColor.init(hexString: "#50BEEB"),UIColor.init(hexString: "#50EA87"),UIColor.init(hexString: "#EAC350")]
+
+let fonts: [UIFont] = [
+    UIFont.systemFont(ofSize: 18),
+    UIFont.boldSystemFont(ofSize: 18),
+    UIFont.italicSystemFont(ofSize: 18),
+    UIFont.systemFont(ofSize: 18, weight: .light),
+    UIFont.monospacedDigitSystemFont(ofSize: 18, weight: .regular)
+]
