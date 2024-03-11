@@ -154,11 +154,6 @@ class RecordViewController: UIViewController {
             collectionView.reloadData()
         }
     }
-    
-//    @objc func handleImageDeletion() {
-//        loadImages() // 重新加载图片数据
-//        collectionView.reloadData() // 刷新集合视图
-//    }
 
 }
 extension RecordViewController: UICollectionViewDelegate,UICollectionViewDataSource{

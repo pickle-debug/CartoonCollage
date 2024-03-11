@@ -15,9 +15,9 @@ class CCTextEditView: UIView {
     let fontLabel = UILabel()
     let textEditTF = UITextField()
     
-    var selectedFont = UIFont()
+    var selectedFont: UIFont = UIFont.systemFont(ofSize: 18)
     let textfontSelectView = CCFontSelectionView()
-    var selectedColor = UIColor()
+    var selectedColor: UIColor = .black
 
 
     override init(frame: CGRect) {
@@ -228,9 +228,12 @@ class CCTextEditView: UIView {
             print("Selected font: \(font.fontName)")
             self.selectedFont = font
         }
-        
-        let submitText = CCSubmitText(text: textEditTF.text ?? "", font: selectedFont, color: selectedColor)
-        
+        print(textEditTF.text)
+        print(selectedColor ?? UIColor.black)
+        print(selectedFont ?? UIFont.systemFont(ofSize: 16))
+        let submitText = CCSubmitText(text: textEditTF.text ?? "", font: selectedFont ?? UIFont.systemFont(ofSize: 16), color: selectedColor ?? UIColor.black)
+        print(submitText)
+
         textDidUpdate?(submitText)
 //        print(textDidUpdate)
        }

@@ -48,3 +48,23 @@ let fonts: [UIFont] = [
     UIFont.systemFont(ofSize: 18, weight: .light),
     UIFont.monospacedDigitSystemFont(ofSize: 18, weight: .regular)
 ]
+//let priceDict:[String:String] = ["20":"$1.99","50":"$2.99","100":"$3.99","200":"$4.99"]
+let priceDict: [(coins: String, price: String)] = [
+    ("100", "2.99"),
+    ("200", "4.99"),
+    ("500", "9.99"),
+    ("1000", "14.99")
+]
+
+let bundleID = "com.addtatto.nicely"
+
+
+let purchaseProduct: Set<String> = ["com.addtatto.nicely.100coin","com.addtatto.nicely.200coin","com.addtatto.nicely.500coin","com.addtatto.nicely.1000coin"]
+
+let purchaseOrder: [String: RegisteredPurchase] = [
+    "100": .coins100,
+    "200": .coins200,
+    "500": .coins500,
+    "1000": .coins1000
+]
+let coinsKey = "userCoins"

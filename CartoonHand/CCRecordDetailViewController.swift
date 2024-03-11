@@ -9,8 +9,6 @@ import Foundation
 import UIKit
 
 class CCRecordDetailViewController: UIViewController {
-//    var image: UIImage
-//    var imageName: String
 
     var image: loaclSandBoxImage
     let imageView = UIImageView()
@@ -19,7 +17,6 @@ class CCRecordDetailViewController: UIViewController {
        // 自定义初始化方法
     init(image: loaclSandBoxImage) {
            self.image = image
-//           self.imageName = imageName
            super.init(nibName: nil, bundle: nil)
        }
        

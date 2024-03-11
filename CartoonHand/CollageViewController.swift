@@ -19,7 +19,7 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
     let editView = UIView()
     
     private var currentTextString = ""
-    
+//    var coinsModel = CoinsModel()
     let segmentItem = ["Body","Head","Background","Sticker","Text"]
 //    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     // 自定义初始化方法
@@ -179,7 +179,7 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
             // 配置闭包来接收选中的图片
             imageSelectView.selectedPic = { [weak self] selectedImage in
                 // 在这里，我们更新imageView来展示选中的图片
-                self!.addContentToContentView(selectedImage, matchContentViewSize: true)
+                self!.addContentToContentView(selectedImage, matchContentViewSize: false)
             }
         case 4:
             let textEdit = CCTextEditView()
@@ -209,6 +209,11 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
     @objc func saveImage() {
         // 在这里实现按钮点击后你想执行的操作
         saveContentViewToImage(contentView: contentView)
+        print(CoinsModel.shared.coins.value)
+        CoinsModel.shared.spendCoins(5)
+        print(CoinsModel.shared.coins.value)
+//        CoinsModel.shared.addCoins(5)
+//        print(CoinsModel.shared.coins.value)
     }
     
     @objc func segmentDidchange(_ segmented: UISegmentedControl) {
@@ -266,7 +271,7 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
        }
 
     func addIconsTo(view: UIView) {
-        let deleteIcon = UIButton(frame: CGRect(x: view.bounds.width - 15, y: view.bounds.height - 15, width: 15, height: 15))
+        let deleteIcon = UIButton(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
         view.addSubview(deleteIcon)
         view.bringSubviewToFront(deleteIcon)
         deleteIcon.setImage(UIImage(systemName: "multiply"), for: .normal)
@@ -324,6 +329,9 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
                 addIconsTo(view: selectedImageView)
             }
         } else if let submitText = content as? CCSubmitText {
+            print(submitText.text)
+            print(submitText.font)
+            print(submitText.color)
             // 新添加的处理文本逻辑
             let label = UILabel()
             label.text = submitText.text
@@ -349,6 +357,8 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
                 }
             }
             
+            addGestures(to: label)
+            addIconsTo(view: label)
             // 根据需要为label添加手势、背景等
             // 注意：这里根据您的需求可能需要进行调整
         } else {
