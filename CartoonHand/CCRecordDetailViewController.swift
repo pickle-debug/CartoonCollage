@@ -10,13 +10,13 @@ import UIKit
 
 class CCRecordDetailViewController: UIViewController {
 
-    var image: loaclSandBoxImage
+    var imageInSandBox: loaclSandBoxImage
     let imageView = UIImageView()
     
 
        // 自定义初始化方法
     init(image: loaclSandBoxImage) {
-           self.image = image
+           self.imageInSandBox = image
            super.init(nibName: nil, bundle: nil)
        }
        
@@ -42,7 +42,7 @@ class CCRecordDetailViewController: UIViewController {
        }
     func setUI(){
         
-        imageView.image = image.image
+        imageView.image = imageInSandBox.image
         self.view.addSubview(imageView)
         imageView.layout { view in
             view.height == 343
@@ -75,10 +75,10 @@ class CCRecordDetailViewController: UIViewController {
     }
     
     @objc func shareImage() {
-//        guard let image = image else { return }
+//        guard let image = imageInSandBox.image else { return }
         
         // 初始化UIActivityViewController
-        let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: [imageInSandBox.image], applicationActivities: nil)
         
         // 排除一些不需要的活动类型
         activityViewController.excludedActivityTypes = [.addToReadingList, .postToFlickr, .postToVimeo]
@@ -94,14 +94,13 @@ class CCRecordDetailViewController: UIViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
     @objc func saveImage() {
-        UIImageWriteToSavedPhotosAlbum(image.image, nil, nil, nil)
+        UIImageWriteToSavedPhotosAlbum(imageInSandBox.image, nil, nil, nil)
         print("saved")
     }
     @objc func deleteImage() {
-        deleteImageFromSandbox(fileName: image.filename)
-        
-        // Optionally, remove the image from your imagesWithFilenames array
-//        imagesWithFilenames.remove(at: index)
+        deleteImageFromSandbox(fileName: imageInSandBox.filename)
+        self.navigationController?.popToRootViewController(animated: true)
+        self.parent?.view.makeToast("Delete Successful", duration: 1.0, position: .center)
     }
 
     func deleteImageFromSandbox(fileName: String) {

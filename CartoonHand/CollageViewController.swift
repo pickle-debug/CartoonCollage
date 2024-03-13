@@ -7,7 +7,7 @@
 
 import UIKit
 import Photos
-
+import Toast_Swift
 class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
     
     
@@ -15,16 +15,25 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
     private var currentIndex = 0
     
     var images: [UIImage]
+    var paidStartIndex: Int?
+    var category: ImageManager.ImageCategory
+    let EditAndControlView = UIView()
+
     
+    var paidImageCount: Int = 0
     let editView = UIView()
+
+    var EditAndControlViewOriginY = Double()
     
     private var currentTextString = ""
 //    var coinsModel = CoinsModel()
     let segmentItem = ["Body","Head","Background","Sticker","Text"]
 //    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     // 自定义初始化方法
-    init(images: [UIImage]) {
+    init(images: [UIImage],paidStartIndex:Int?,category:ImageManager.ImageCategory) {
         self.images = images
+        self.paidStartIndex = paidStartIndex
+        self.category = category
         super.init(nibName: nil, bundle: nil)
         
     }
@@ -53,19 +62,17 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
     
     override func viewDidAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
+        showFirstTimeAlertIfNeeded()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let titleLabel = UILabel()
 
-        self.view.addSubview(titleLabel)
         titleLabel.text = "Hand"
-        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
-        titleLabel.layout { view in
-            view.centerX == view.superview.centerX
-            view.top == view.superview.top + 60
-        }
+        titleLabel.font = UIFont.systemFont(ofSize: 24,weight: .heavy)
+        titleLabel.textColor = .black
+
+        self.navigationItem.titleView = titleLabel
         
         // 创建一个带有自定义图标的UIBarButtonItem
         let button = UIButton(type: .custom)
@@ -78,43 +85,61 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
         
         // 将UIBarButtonItem赋值给navigationItem的rightBarButtonItem
         self.navigationItem.rightBarButtonItem = item
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         
         setUI()
 
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
     
     func setUI(){
                 
         self.view.addSubview(contentView)
         contentView.backgroundColor = UIColor.white
         contentView.layout { view in
-            view.width == 343
-            view.height == 343
-            view.centerX == view.superview.centerX
-            view.top == view.superview.top + 102
+            view.leading == view.superview.leading + 16
+            view.trailing == view.superview.trailing - 16
+            view.top == view.superview.top + kNavBarFullHeight
+            view.height == view.width
         }
-        self.view.addSubview(editView)
+        self.view.addSubview(EditAndControlView)
+        EditAndControlView.layout { view in
+            view.width == view.superview.width
+            view.height == kScreenHeight * 0.4
+            view.top == contentView.bottom + 30
+        }
+        EditAndControlView.addSubview(control)
+        control.backgroundColor = UIColor.init(hexString: "#687BFB")
+        control.layer.masksToBounds = true
+        control.layer.cornerRadius = 37.0
+        control.clipsToBounds = true
+        control.layout { view in
+            view.top == view.superview.top
+            view.leading == view.superview.leading + 20
+            view.trailing == view.superview.trailing - 20
+            view.height == 72
+            //            view.centerX == view.superview.centerX
+            //            view.centerY == editView.top
+        }
+
+        EditAndControlView.addSubview(editView)
         editView.layer.cornerRadius = 60
         editView.backgroundColor = .white
         editView.layout { view in
-            view.width == view.superview.width
-            view.height == 300
-            view.top == view.superview.bottom - 307
+            view.width == kScreenWidth
+            view.height == kScreenHeight * 0.5
+            view.top == control.centerY
             view.centerX == view.superview.centerX
         }
-        
-        self.view.addSubview(control)
-        control.backgroundColor = UIColor.init(hexString: "#687BFB")
-        control.layer.cornerRadius = 37.0
-        
-        control.layer.masksToBounds = true
-        control.clipsToBounds = true
-        control.layout { view in
-            view.width == 329
-            view.height == 72
-            view.centerX == view.superview.centerX
-            view.centerY == editView.top
-        }
+        EditAndControlView.bringSubviewToFront(control)
+        EditAndControlViewOriginY = self.EditAndControlView.frame.origin.y
         
         setImageEditUI(index: 0)
     }
@@ -124,7 +149,10 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
         }
         switch index {
         case 0:
-            let imageSelectView = CCImageSelectView(frame: .zero, images: BodyImages)
+            let category = ImageManager.ImageCategory.body // 选择图片类别
+            let (sortedImages, paidStartIndex) = ImageManager.shared.sortedImagesWithPaidIndex(for: category)
+            let imageSelectView = CCImageSelectView(frame: .zero, images: sortedImages,paidStartIndex: paidStartIndex)
+//            let imageSelectView = CCImageSelectView(frame: .zero, images: BodyImages)
             editView.addSubview(imageSelectView)
             imageSelectView.layout { view in
                 view.width == editView.width
@@ -134,13 +162,24 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
             }
             // 配置闭包来接收选中的图片
             imageSelectView.selectedPic = { [weak self] selectedImage in
-                // 在这里，我们更新imageView来展示选中的图片
-                self!.addContentToContentView(selectedImage, matchContentViewSize: false)
-                print(selectedImage)
+                guard let strongSelf = self else { return }
+                   
+                let imageView = PaidImageView(image: selectedImage!.image)
+                   imageView.isPaid = selectedImage!.isPaid
+                   imageView.contentMode = .scaleAspectFit
+                   imageView.isUserInteractionEnabled = true
+                   
+                
+                strongSelf.addContentToContentView(imageView, matchContentViewSize: false)
+                   if imageView.isPaid {
+                       strongSelf.paidImageCount += 1
+                       print(strongSelf.paidImageCount)
+
+                   }
             }
             
         case 1:
-            let imageSelectView = CCImageSelectView(frame: .zero, images: images)
+            let imageSelectView = CCImageSelectView(frame: .zero, images: images,paidStartIndex: paidStartIndex)
             editView.addSubview(imageSelectView)
             imageSelectView.layout { view in
                 view.width == editView.width
@@ -148,10 +187,23 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
                 view.top == editView.top
                 view.centerX == editView.centerX
             }
+            
             // 配置闭包来接收选中的图片
             imageSelectView.selectedPic = { [weak self] selectedImage in
-                // 在这里，我们更新imageView来展示选中的图片
-                self!.addContentToContentView(selectedImage, matchContentViewSize: false)
+                guard let strongSelf = self else { return }
+                   
+                let imageView = PaidImageView(image: selectedImage!.image)
+                   imageView.isPaid = selectedImage!.isPaid
+                   imageView.contentMode = .scaleAspectFit
+                   imageView.isUserInteractionEnabled = true
+                   
+                
+                strongSelf.addContentToContentView(imageView, matchContentViewSize: false)
+                   if imageView.isPaid {
+                       strongSelf.paidImageCount += 1
+                       print(strongSelf.paidImageCount)
+
+                   }
             }
         case 2:
             let colorView = CCBackgroundEditView()
@@ -168,7 +220,9 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
             }
             
         case 3:
-            let imageSelectView = CCImageSelectView(frame: .zero, images: stickerImages)
+            let category = ImageManager.ImageCategory.sticker // 选择图片类别
+            let (sortedImages, paidStartIndex) = ImageManager.shared.sortedImagesWithPaidIndex(for: category)
+            let imageSelectView = CCImageSelectView(frame: .zero, images: sortedImages,paidStartIndex: paidStartIndex)
             editView.addSubview(imageSelectView)
             imageSelectView.layout { view in
                 view.width == editView.width
@@ -177,9 +231,22 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
                 view.centerX == editView.centerX
             }
             // 配置闭包来接收选中的图片
+            // 配置闭包来接收选中的图片
             imageSelectView.selectedPic = { [weak self] selectedImage in
-                // 在这里，我们更新imageView来展示选中的图片
-                self!.addContentToContentView(selectedImage, matchContentViewSize: false)
+                guard let strongSelf = self else { return }
+                   
+                let imageView = PaidImageView(image: selectedImage!.image)
+                   imageView.isPaid = selectedImage!.isPaid
+                   imageView.contentMode = .scaleAspectFit
+                   imageView.isUserInteractionEnabled = true
+                   
+                
+                strongSelf.addContentToContentView(imageView, matchContentViewSize: false)
+                   if imageView.isPaid {
+                       strongSelf.paidImageCount += 1
+                       print(strongSelf.paidImageCount)
+
+                   }
             }
         case 4:
             let textEdit = CCTextEditView()
@@ -205,16 +272,81 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
         showImagePicker()
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            UIView.animate(withDuration: 0.3) {
+                print(self.editView.frame.origin.y)
+
+//                self.control.frame.origin.y = kScreenHeight * 0.4
+                self.EditAndControlView.frame.origin.y = 150
+//                self.control.frame.origin.y = 150 - kScreenWidth * 0.4
+                print(self.EditAndControlView.frame.origin.y)
+
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.3) {
+            self.EditAndControlView.frame.origin.y = kScreenHeight * 0.58
+            print(self.EditAndControlView.frame.origin.y)
+        
+        }
+    }
+    
     // 定义点击事件的方法
     @objc func saveImage() {
-        // 在这里实现按钮点击后你想执行的操作
-        saveContentViewToImage(contentView: contentView)
-        print(CoinsModel.shared.coins.value)
-        CoinsModel.shared.spendCoins(5)
-        print(CoinsModel.shared.coins.value)
-//        CoinsModel.shared.addCoins(5)
-//        print(CoinsModel.shared.coins.value)
+        // Check if contentView has subviews
+        guard !contentView.subviews.isEmpty else {
+            // Popup “The canvas is still blank, please edit it first” message
+            self.view.makeToast("The canvas is still blank, please edit it first",duration: 1.0,position: .center)
+
+//            showAlertWith(message: "The canvas is still blank, please edit it first")
+            return
+        }
+
+        // If there are no paid contents used (paidImageCount == 0), directly save the image without deducting coins.
+        if paidImageCount == 0 {
+            saveContentViewToImage(contentView: contentView)
+            self.view.makeToast("Save Successful",duration: 1.0,position: .center)
+        } else {
+            // When paid contents are used, confirm if user wants to spend coins.
+            guard let coinsValue = CoinsModel.shared.coins.value, coinsValue > 0 else {
+                print("Coins value not set or insufficient coins")
+                self.view.makeToast("Insufficient coins, please go to the store to purchase coins.",duration: 1.0,position: .center)
+                return
+            }
+
+            let cost = paidImageCount * 5 // Calculate the cost based on used paid contents
+            
+            // Check if there are enough coins to cover the cost
+            if coinsValue < cost {
+                self.view.makeToast("Insufficient coins, please go to the store to purchase coins.",duration: 1.0,position: .center)
+            } else {
+                confirmSpendCoins(cost: cost)
+            }
+        }
     }
+
+
+    func confirmSpendCoins(cost: Int) {
+        let message = "Do you want to spend \(cost) coins to save the image?"
+        let alert = UIAlertController(title: "Save Image", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { [weak self] _ in
+            CoinsModel.shared.spendCoins(cost)
+            self?.saveContentViewToImage(contentView: self?.contentView ?? UIView())
+        }))
+        present(alert, animated: true)
+    }
+
+    func showAlertWith(message: String) {
+        let alert = UIAlertController(title: "Notice", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default))
+        present(alert, animated: true, completion: nil)
+    }
+
+
     
     @objc func segmentDidchange(_ segmented: UISegmentedControl) {
         let selectedItem = segmentItem[segmented.selectedSegmentIndex]
@@ -238,43 +370,69 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
     }
 
     @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-        
         guard let viewToMove = gesture.view else { return }
         let translation = gesture.translation(in: viewToMove.superview)
-        let proposedNewCenter = CGPoint(x: viewToMove.center.x + translation.x, y: viewToMove.center.y + translation.y)
-
-        // 计算拖动后的view的frame
-        let halfWidth = viewToMove.bounds.width / 2
-        let halfHeight = viewToMove.bounds.height / 2
-        let proposedNewFrame = CGRect(x: proposedNewCenter.x - halfWidth, y: proposedNewCenter.y - halfHeight, width: viewToMove.bounds.width, height: viewToMove.bounds.height)
         
-        // 确保新frame不会超出contentView的边界
-        guard let superviewBounds = viewToMove.superview?.bounds else { return }
-        let clampedX = max(halfWidth, min(superviewBounds.width - halfWidth, proposedNewFrame.midX))
-        let clampedY = max(halfHeight, min(superviewBounds.height - halfHeight, proposedNewFrame.midY))
-
         if gesture.state == .changed {
+            let proposedNewCenter = CGPoint(x: viewToMove.center.x + translation.x, y: viewToMove.center.y + translation.y)
+            
+            // 获取视图的放大后的实际尺寸
+            let scaledWidth = viewToMove.frame.width
+            let scaledHeight = viewToMove.frame.height
+            
+            // 获取父视图的尺寸
+            guard let superviewBounds = viewToMove.superview?.bounds else { return }
+
+            // 计算拖动后视图的边界，以确保不会超出父视图
+            let minX = scaledWidth / 2
+            let maxX = superviewBounds.width - minX
+            let minY = scaledHeight / 2
+            let maxY = superviewBounds.height - minY
+            
+            let clampedX = max(minX, min(maxX, proposedNewCenter.x))
+            let clampedY = max(minY, min(maxY, proposedNewCenter.y))
+            
             viewToMove.center = CGPoint(x: clampedX, y: clampedY)
             gesture.setTranslation(.zero, in: viewToMove.superview)
         }
-        
     }
-    @objc func handlePinchGesture(_ gesture: UIPinchGestureRecognizer) {
-           guard gesture.view != nil else { return }
 
-           if gesture.state == .began || gesture.state == .changed {
-               // 根据捏合手势的缩放比例调整视图的缩放
-               gesture.view?.transform = (gesture.view?.transform.scaledBy(x: gesture.scale, y: gesture.scale))!
-               // 重置缩放比例，这样缩放是增量的
-               gesture.scale = 1.0
-           }
-       }
+    @objc func handlePinchGesture(_ gesture: UIPinchGestureRecognizer) {
+        guard let viewToScale = gesture.view, let superview = viewToScale.superview else { return }
+
+        if gesture.state == .began || gesture.state == .changed {
+            // 预计算缩放后的视图尺寸
+            let scale = gesture.scale
+            let currentTransform = viewToScale.transform
+            let newTransform = currentTransform.scaledBy(x: scale, y: scale)
+            let currentFrame = viewToScale.frame
+            let newFrame = viewToScale.bounds.applying(newTransform)
+            let scaledWidth = newFrame.width
+            let scaledHeight = newFrame.height
+
+            // 确保缩放后的尺寸不会超出父视图的尺寸
+            let fitsInSuperview = scaledWidth <= superview.bounds.width && scaledHeight <= superview.bounds.height
+            
+            if fitsInSuperview {
+                // 应用新的缩放比例
+                viewToScale.transform = newTransform
+                // 重置缩放比例，这样缩放是增量的
+                gesture.scale = 1.0
+            } else {
+                // 调整scale使得缩放后尺寸适应父视图边界
+                let widthRatio = superview.bounds.width / currentFrame.width
+                let heightRatio = superview.bounds.height / currentFrame.height
+                let minRatio = min(widthRatio, heightRatio)
+                viewToScale.transform = currentTransform.scaledBy(x: minRatio, y: minRatio)
+            }
+        }
+    }
 
     func addIconsTo(view: UIView) {
         let deleteIcon = UIButton(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
         view.addSubview(deleteIcon)
         view.bringSubviewToFront(deleteIcon)
-        deleteIcon.setImage(UIImage(systemName: "multiply"), for: .normal)
+        deleteIcon.setImage(UIImage(named: "removeIcon"), for: .normal)
         deleteIcon.tintColor = UIColor.black
         deleteIcon.addTarget(self, action: #selector(deleteSubview(_:)), for: .touchUpInside)
         deleteIcon.tag = 999
@@ -293,7 +451,11 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
 
 
     @objc func deleteSubview(_ sender: UIButton) {
-        print("delete")
+        if let imageView = sender.superview as? PaidImageView, imageView.isPaid {
+                paidImageCount -= 1
+            }
+        print(paidImageCount)
+
         sender.superview?.removeFromSuperview()
     }
     
@@ -305,72 +467,74 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
     
     func addContentToContentView(_ content: Any, matchContentViewSize: Bool) {
         if let image = content as? UIImage {
-            // 原有的添加图片逻辑
-            let selectedImageView = UIImageView(image: image)
-            contentView.addSubview(selectedImageView)
-
-            if matchContentViewSize {
-                selectedImageView.layout { view in
-                    view.height == contentView.height
-                    view.width == contentView.width
-                    view.centerX == contentView.centerX
-                    view.centerY == contentView.centerY
-                }
-            } else {
-                selectedImageView.layout { view in
-                    view.centerX == contentView.centerX
-                    view.centerY == contentView.centerY
-                }
-            }
-
-            // 通用配置，为imageView添加手势和icon
-            if !matchContentViewSize {
-                addGestures(to: selectedImageView)
-                addIconsTo(view: selectedImageView)
-            }
+            // 处理 UIImage 类型的内容
+            let selectedImageView = PaidImageView(image: image) // 使用 PaidImageView
+            setupImageView(selectedImageView, matchContentViewSize: matchContentViewSize)
         } else if let submitText = content as? CCSubmitText {
-            print(submitText.text)
-            print(submitText.font)
-            print(submitText.color)
-            // 新添加的处理文本逻辑
+            // 处理 CCSubmitText 类型的内容
             let label = UILabel()
-            label.text = submitText.text
-            label.font = submitText.font
-            label.textColor = submitText.color
-            
-            contentView.addSubview(label)
-            
-            // 根据matchContentViewSize标志来设置label布局
-            if matchContentViewSize {
-                label.layout { view in
-                    view.height == 30
-                    view.width == 200
-                    view.centerX == contentView.centerX
-                    view.centerY == contentView.centerY
-                }
-            } else {
-                // 如果不需要匹配contentView的大小，可能需要自定义布局
-                label.layout { view in
-                    // 这里的布局取决于您具体的需求，例如仅设置中心对齐
-                    view.centerX == contentView.centerX
-                    view.centerY == contentView.centerY
-                }
-            }
-            
-            addGestures(to: label)
-            addIconsTo(view: label)
-            // 根据需要为label添加手势、背景等
-            // 注意：这里根据您的需求可能需要进行调整
+            setupLabel(label, with: submitText)
+        } else if let imageView = content as? PaidImageView {
+            // 如果直接传入了 PaidImageView 类型的实例
+            setupImageView(imageView, matchContentViewSize: matchContentViewSize)
         } else {
-            // 处理其他类型的content或抛出错误
+            // 如果传入的是其他不支持的类型
             print("Unsupported content type")
         }
     }
 
+    func setupImageView(_ imageView: UIImageView, matchContentViewSize: Bool) {
+        contentView.addSubview(imageView)
+        // 检查是否为新添加的视图
+        if imageView.superview == nil {
+            // 这里添加布局和配置imageView的代码
+            if matchContentViewSize {
+                imageView.layout { view in
+                    view.height == contentView.height
+                    view.width == contentView.width
+                }
+            }
+            imageView.layout { view in
+                // 仅为新图片设置中心约束
+                view.centerX == contentView.centerX
+                view.centerY == contentView.centerY
+            }
+        }
+
+        // 通用配置，为imageView添加手势和icon
+        if !matchContentViewSize {
+            addGestures(to: imageView)
+            addIconsTo(view: imageView)
+        }
+    }
+
+    func setupLabel(_ label: UILabel, with submitText: CCSubmitText) {
+        label.text = submitText.text
+        label.font = submitText.font
+        label.textColor = submitText.color
+        contentView.addSubview(label)
+        // 这里添加布局和配置label的代码
+        // 根据matchContentViewSize标志来设置label布局
+        label.layout { view in
+            view.height == 50
+            view.width == 200
+            view.centerX == contentView.centerX
+            view.centerY == contentView.centerY
+        }
+        
+        addGestures(to: label)
+        addIconsTo(view: label)
+    }
     func setBackgroundView(_ image: UIImage?){
         guard let background = image else { return }
+        
+        let backgroundViewTag = 999 // 假设我们给背景视图的tag设置为999
+        if let oldBackgroundView = contentView.viewWithTag(backgroundViewTag) {
+            oldBackgroundView.removeFromSuperview()
+        }
+        
         let backgroundView = UIImageView(image: background)
-        print(image)
+        backgroundView.tag = backgroundViewTag // 设置新背景视图的tag
         backgroundView.image = image
         backgroundView.contentMode = .scaleAspectFill // 或者选择其他适合的contentMode
         backgroundView.clipsToBounds = true
@@ -382,6 +546,27 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
             view.top == contentView.top
             view.bottom == contentView.bottom
         }
+    }
+    func showFirstTimeAlertIfNeeded() {
+        let hasShownAlertKey = "hasShownFeatureAlert\(category.rawValue)"
+            let hasShownAlert = UserDefaults.standard.bool(forKey: hasShownAlertKey)
+            
+            if !hasShownAlert {
+                // 弹出提示消息
+                let alert = UIAlertController(title: "Feature Introduction", message: "This is a feature that allows you to edit cartoon patterns, you can choose different avatars, bodies, background patterns and various stickers which can be moved to any position and scaled in size.\n\nIf you select a paid clip for editing, you need to consume the corresponding number of coins when saving.\n\n*Selected clips with multiple avatars, bodies and stickers may be stacked on top of each other, you can drag them to separate them.", preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
+                    UserDefaults.standard.set(true, forKey: hasShownAlertKey)
+                }
+                alert.addAction(yesAction)
+                present(alert, animated: true)
+            }
+        }
+    func alertForPaidSave(message: String){
+        let alert = UIAlertController(title: "Notice", message: message, preferredStyle: .alert)
+           alert.addAction(UIAlertAction(title: "Yes", style: .default))
+           // 如果你在UIViewController中
+           present(alert, animated: true)
+           // 如果不在UIViewController中，需要获取当前的UIViewController来展示Alert
     }
 }
 extension CollageViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -482,4 +667,38 @@ extension CollageViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 
 
+}
+class PaidImageView: UIImageView {
+    var isPaid: Bool = false
+}
+extension CollageViewController:UITextFieldDelegate {
+    
+//    //输入框开始编辑
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        //view弹起跟随键盘，高可根据自己定义
+//        UIView.animate(withDuration: 0.4, animations: {
+//            
+//            self.editView.frame.origin.y = -150
+//            
+//        })
+//    }
+//    
+//    //输入框结束编辑的时候
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        //键盘收回，view放下
+//        
+//        UIView.animate(withDuration: 0.2, animations: {
+//            
+//            self.editView.frame.origin.y = 0
+//            
+//        })
+//    }
+    // 点击屏幕收起键盘
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        view.endEditing(true)
+        
+    }
+ 
+    
 }

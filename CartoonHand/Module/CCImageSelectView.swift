@@ -9,13 +9,15 @@ import UIKit
 
 class CCImageSelectView: UIView {
 
-    var selectedPic: ((UIImage?) -> Void)?
-
+    var selectedPic: ((CCSelectedPic?) -> Void)?
+        
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let images: [UIImage]
+    var paidStartIndex: Int?
     
-    init(frame: CGRect,images: [UIImage]) {
+    init(frame: CGRect,images: [UIImage],paidStartIndex:Int?) {
         self.images = images
+        self.paidStartIndex = paidStartIndex
         super.init(frame: frame)
         setupUI()
     }
@@ -53,7 +55,7 @@ class CCImageSelectView: UIView {
 
 extension CCImageSelectView: UICollectionViewDelegate,UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return  images.count// 第三个选项有10个项目
+            return  images.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollageCollectionViewCell", for: indexPath) as! CollageCollectionViewCell
@@ -64,14 +66,44 @@ extension CCImageSelectView: UICollectionViewDelegate,UICollectionViewDataSource
             view.width == 166
             view.height == 166
         }
+        // 先移除可能之前添加过的遮罩视图，以避免重复添加
+        cell.imageView.subviews.forEach { if $0.tag == 101 { $0.removeFromSuperview() } }
+        
+        // 检查是否需要在图片上添加灰色遮罩
+        if let paidStartIndex = paidStartIndex, indexPath.item >= paidStartIndex {
+            let paidView = UIImageView()
+            paidView.image = UIImage(named: "paidIcon")
+            paidView.tintColor = .yellow
+            paidView.tag = 101 // 设置tag以便识别和移除
+            paidView.isUserInteractionEnabled = false // 不阻止用户交互
+            cell.imageView.addSubview(paidView)
+            
+            paidView.layout { view in
+                view.width == 25
+                view.height == 25
+                view.bottom == cell.imageView.bottom - 5
+                view.trailing == cell.imageView.trailing - 5
+            }
+        }
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedImage = images[indexPath.item]
-        selectedPic?(selectedImage)
+        let isPaid = paidStartIndex != nil && indexPath.item >= paidStartIndex!
+        let selected = CCSelectedPic(image: selectedImage, isPaid: isPaid)
+        selectedPic?(selected)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // 根据需要返回单元格的大小
         return CGSize(width: 166, height: 166)
+    }
+}
+struct CCSelectedPic {
+    let image: UIImage
+    let isPaid: Bool
+    
+    init(image: UIImage, isPaid: Bool) {
+        self.image = image
+        self.isPaid = isPaid
     }
 }

@@ -15,21 +15,10 @@ protocol CCBackgroundEditViewDelegate: AnyObject {
 
 
 class CCBackgroundEditView: UIView {
-//    func didFinishPickingImage(_ image: UIImage) {
-//        <#code#>
-//    }
-//    
-//    func didFailPickingImage() {
-//        <#code#>
-//    }
-    
     var selectedBackground: ((UIImage?) -> Void)?
     
     weak var delegate: CCBackgroundEditViewDelegate?
-//    let imagePickerManager = CCImagePickerManager()
 
-   
-    
     let BackgroundImages: [UIImage] = (1...8).compactMap { UIImage(named: "Background\($0)") }
     
     
@@ -40,7 +29,6 @@ class CCBackgroundEditView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        imagePickerManager.delegate = self
         setupUI()
     }
     
@@ -58,7 +46,7 @@ class CCBackgroundEditView: UIView {
         scrollView.layout { view in
             view.height == 60  //假设scrollView填满父视图
             view.width == self.width
-            view.top == self.top + 57
+            view.top == self.top + 40
         }
         
         var previousView: UIView?
@@ -112,7 +100,7 @@ class CCBackgroundEditView: UIView {
         collectionView.layout { view in
             view.height == self.height
             view.width == self.width
-            view.top == scrollView.bottom + 19
+            view.top == scrollView.bottom
             view.centerX == self.centerX
         }
     }
@@ -209,10 +197,10 @@ extension CCBackgroundEditView: UICollectionViewDelegate,UICollectionViewDataSou
         } else {
             cell.image = BackgroundImages[indexPath.item - 1]
             cell.imageView.contentMode = .scaleAspectFit
-            cell.imageView.layout { view in
-                view.width == 166
-                view.height == 166
-            }
+//            cell.imageView.layout { view in
+//                view.width == 166
+//                view.height == 166
+//            }
         }
         return cell
     }

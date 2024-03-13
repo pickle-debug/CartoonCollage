@@ -21,11 +21,6 @@ class RecordViewController: UIViewController {
     
     let emptyTip = UILabel()
     
-//    let titleLabel = UILabel()
-
-
-//    var images: [UIImage] = []
-
     var loaclSandBoxImages: [loaclSandBoxImage] = []
 
 //    var layout = UICollectionViewFlowLayout()

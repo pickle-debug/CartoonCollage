@@ -33,14 +33,22 @@ class MainViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     func setUI(){
+//        self.navigationController?.navigationBar.removeFromSuperview()
         //MARK: - 顶部装饰性tip
         self.view.addSubview(tipBackGround)
-        tipBackGround.image = UIImage(named: "Group 44")
+        tipBackGround.image = UIImage(named: "Group 44")?.withRenderingMode(.alwaysOriginal)
+        tipBackGround.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            tipBackGround.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+//            tipBackGround.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+//        ])
+//        tipBackGround.layout { view in
+//            view.trailing == view.superview.trailing
+//            view.top == view.superview.top + 40
+//        }
         tipBackGround.layout { view in
-            view.height == 297.87
-            view.width == 376
             view.trailing == view.superview.trailing
-            view.top == view.superview.top + 60
+            view.top == view.superview.top + safeAreaInsets.top
         }
         self.view.addSubview(tip)
         tip.image = UIImage(named: "Group 43")
@@ -60,36 +68,42 @@ class MainViewController: UIViewController {
         }
         
         //MARK: - 主页真实头像与卡通头像入口的UI设置
+        let buttonContendView = UIView()
+        self.view.addSubview(buttonContendView)
+        
         
         self.view.addSubview(realInter)
-        realInter.setImage(UIImage(named: "Group 46"), for: .normal)
+        realInter.setImage(UIImage(named: "realInter")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        realInter.imageView?.contentMode = .scaleAspectFit
         realInter.addTarget(self, action: #selector(toRealHeadCollage), for: .touchUpInside)
         realInter.translatesAutoresizingMaskIntoConstraints = false
         realInter.layout { view in
-            view.height == 339
-            view.width == 362
+            view.leading == tip.leading
             view.trailing == tip.trailing
-            view.top == tip.bottom + 18
+            view.bottom == view.superview.bottom - (kTabBarHeight + 10)
+            view.top == tip.bottom + 12
         }
 
         self.view.addSubview(cartoonInter)
-        cartoonInter.setImage(UIImage(named: "Group 45"), for: .normal)
+        cartoonInter.setImage(UIImage(named: "cartoonInter")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        cartoonInter.imageView?.contentMode = .scaleAspectFit
         cartoonInter.addTarget(self, action: #selector(toCartoonHeadCollage), for: .touchUpInside)
         cartoonInter.translatesAutoresizingMaskIntoConstraints = false
         
         cartoonInter.layout { view in
-            view.height == 302.98
-            view.width == 185
-            view.leading == tip.leading
-            view.top == tip.bottom + 48
+            view.height == realInter.height * 0.9
+            view.width == realInter.width * 0.54
+            view.leading == realInter.leading
+            view.bottom == realInter.bottom
         }
     
     }
 
     @objc func toRealHeadCollage(){
         // 创建下一个视图控制器
-        let nextViewController = CollageViewController(images: RealHeadImages)
-//        nextViewController.modalPresentationStyle = .fullScreen
+        let category = ImageManager.ImageCategory.realHead // 选择图片类别
+        let (sortedImages, paidStartIndex) = ImageManager.shared.sortedImagesWithPaidIndex(for: category)
+        let nextViewController = CollageViewController(images: sortedImages,paidStartIndex: paidStartIndex,category:category)
         nextViewController.view.backgroundColor = UIColor.init(hexString: "#E5FDFF")
         navigationController?.tabBarController?.tabBar.isHidden = true
 
@@ -97,7 +111,9 @@ class MainViewController: UIViewController {
         navigationController?.pushViewController(nextViewController, animated: true)
     }
     @objc func toCartoonHeadCollage(){
-        let nextViewController = CollageViewController(images: HeadImages)
+        let category = ImageManager.ImageCategory.head // 选择图片类别
+        let (sortedImages, paidStartIndex) = ImageManager.shared.sortedImagesWithPaidIndex(for: category)
+        let nextViewController = CollageViewController(images: sortedImages,paidStartIndex: paidStartIndex,category:category)
         nextViewController.view.backgroundColor = UIColor.init(hexString: "#E5FDFF")
         navigationController?.tabBarController?.tabBar.isHidden = true
 

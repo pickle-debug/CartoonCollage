@@ -19,7 +19,7 @@ enum RegisteredPurchase : String {
 class StoreViewController: UIViewController {
     
     let titleLabel = UILabel()
-    let coinsCount = UILabel()
+    let coinsCount = CCPaddingLabel()
 //    var coinsModel = CoinsModel() // 创建 CoinsModel 的实例
     
     var coins100 = RegisteredPurchase.coins100
@@ -46,14 +46,61 @@ class StoreViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.init(hexString: "#F4FFFF")
         
-        let titleLabel = UILabel()
-        self.view.addSubview(titleLabel)
+//        let titleLabel = UILabel()
+//        self.view.addSubview(titleLabel)
+//        titleLabel.text = "Store"
+//        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
+//        titleLabel.layout { view in
+//            view.centerX == view.superview.centerX
+//            view.top == view.superview.top + 60
+//        }
+//        
         titleLabel.text = "Store"
-        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
-        titleLabel.layout { view in
-            view.centerX == view.superview.centerX
-            view.top == view.superview.top + 60
+        titleLabel.font = UIFont.systemFont(ofSize: 24,weight: .heavy)
+        titleLabel.textColor = .black
+
+        self.navigationItem.titleView = titleLabel
+//        self.navigationItem.ri
+        
+        CoinsModel.shared.coins.bind { [weak self] coins in
+            DispatchQueue.main.async {
+                self?.coinsCount.text = "\(coins ?? 0)"
+            }
         }
+
+        coinsCount.padding = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 10)
+        coinsCount.textAlignment = .center
+        coinsCount.font = UIFont.systemFont(ofSize: 14,weight: .heavy)
+        coinsCount.textColor = .black
+        coinsCount.backgroundColor = UIColor.init(hexString: "#FFF5D9")
+        coinsCount.layer.cornerRadius = 15
+//        coinsCount.roundCorners(corners: [.topRight,.bottomRight], radius: 15)
+        coinsCount.layer.masksToBounds = true
+        // 设置自动调整字体大小以适应宽度
+        coinsCount.adjustsFontSizeToFitWidth = true
+
+        // 设置字体缩小的最小比例，这里设为0.5表示最小可以缩小到原字体的50%
+        coinsCount.minimumScaleFactor = 0.5
+//        self.view.addSubview(coinsCount)
+        coinsCount.layout { view in
+            view.height == 30
+            view.width == 81
+//            view.centerY == coinsIcon.centerY
+//            view.leading == coinsIcon.leading
+        }
+        
+        let coinsIcon = UIImageView()
+        coinsIcon.image = UIImage(named: "coins")?.withRenderingMode(.alwaysOriginal)
+        coinsCount.addSubview(coinsIcon)
+        coinsIcon.layout { view in
+            view.height == 30
+            view.width == 30
+            view.centerY == view.superview.centerY
+            view.leading == view.superview.leading
+        }
+        let rightItem = UIBarButtonItem(customView: coinsCount)
+        // 将UIBarButtonItem设置为navigationItem的rightBarButtonItem
+        navigationItem.rightBarButtonItem = rightItem
         
         let topBanner = UIView()
         topBanner.backgroundColor = UIColor.init(hexString: "#FFDE4E")
@@ -73,40 +120,6 @@ class StoreViewController: UIViewController {
             view.bottom == topBanner.bottom + 39
             view.centerX == view.superview.centerX
         }
-        
-        let coinsIcon = UIImageView()
-        coinsIcon.image = UIImage(named: "coins")?.withRenderingMode(.alwaysOriginal)
-        self.view.addSubview(coinsIcon)
-        coinsIcon.layout { view in
-            view.height == 30
-            view.width == 30
-            view.centerY == titleLabel.centerY
-            view.trailing == view.superview.trailing - 80
-        }
-//        coinsModel.coins.value = 50
-        
-        //        coinsCount.text = "50"
-        // 绑定
-        CoinsModel.shared.coins.bind { [weak self] coins in
-            DispatchQueue.main.async {
-                self?.coinsCount.text = "\(coins ?? 0)"
-            }
-        }
-        
-        coinsCount.textAlignment = .center
-        coinsCount.font = UIFont.systemFont(ofSize: 14,weight: .heavy)
-        coinsCount.textColor = .black
-        coinsCount.backgroundColor = UIColor.init(hexString: "#FFF5D9")
-        coinsCount.layer.cornerRadius = 15
-        coinsCount.layer.masksToBounds = true
-        self.view.addSubview(coinsCount)
-        coinsCount.layout { view in
-            view.height == 30
-            view.width == 81
-            view.centerY == coinsIcon.centerY
-            view.leading == coinsIcon.leading
-        }
-        view.bringSubviewToFront(coinsIcon)
         
         
         var lastButton: CCBuyButton? = nil
@@ -146,6 +159,9 @@ class StoreViewController: UIViewController {
     }
     // The selector method for button press action
     @objc func buyButtonPressed(_ sender: UIButton) {
+            self.navigationController?.view.makeToastActivity(.center)
+       
+        
         if let purchaseType = purchaseTagMap[sender.tag] {
               purchase(purchase: purchaseType)
           }
@@ -169,7 +185,9 @@ class StoreViewController: UIViewController {
     func purchase(purchase : RegisteredPurchase) {
         NetworkActivityIndicatorManager.NetworkOperationStarted()
         SwiftyStoreKit.purchaseProduct(bundleID + "." + purchase.rawValue, quantity: 1, atomically: true) { result in
+            self.navigationController?.view.hideToastActivity()
             NetworkActivityIndicatorManager.networkOperationFinished()
+
             
             switch result {
             case .success(let purchase):

@@ -10,7 +10,7 @@ import UIKit
 
 class CCFontSelectionView: UIView {
     private var scrollView: UIScrollView!
-    
+    private var selectedButton: UIButton? // 追踪当前选中的按钮
     var onFontSelected: ((UIFont) -> Void)?
     
     override init(frame: CGRect) {
@@ -34,7 +34,6 @@ class CCFontSelectionView: UIView {
             view.trailing == self.trailing
         }
 
-        
         var previousButton: UIButton? = nil
         
         for font in fonts {
@@ -43,12 +42,8 @@ class CCFontSelectionView: UIView {
             button.titleLabel?.font = font
             button.translatesAutoresizingMaskIntoConstraints = false
             button.backgroundColor = UIColor.init(hexString: "#687BFB")
-            button.titleLabel?.tintColor = .white
+            button.setTitleColor(.white, for: .normal)
             scrollView.addSubview(button)
-            
-            // 为每个按钮添加点击事件
-            button.addTarget(self, action: #selector(fontButtonTapped(_:)), for: .touchUpInside)
-            
             
             button.layout { view in
                 view.height == 36
@@ -61,13 +56,15 @@ class CCFontSelectionView: UIView {
                 }
             } else {
                 button.layout { view in
-                    view.leading == scrollView.leading - 12
+                    view.leading == scrollView.leading + 12
                 }
             }
             
             previousButton = button
+            
+            // 为每个按钮添加点击事件
+            button.addTarget(self, action: #selector(fontButtonTapped(_:)), for: .touchUpInside)
         }
-        
         
         if let lastButton = previousButton {
             lastButton.layout { view in
@@ -80,11 +77,22 @@ class CCFontSelectionView: UIView {
     
     @objc func fontButtonTapped(_ sender: UIButton) {
         guard let font = sender.titleLabel?.font else { return }
-        print(font)
-        print(font.fontName)
-        print(font.familyName)
-        print(onFontSelected)
-        onFontSelected?(sender.titleLabel!.font as! UIFont)
-        print(onFontSelected)
+        onFontSelected?(font)
+        
+        // 缩放选中的按钮，恢复之前选中的按钮
+        if let selectedButton = selectedButton, selectedButton != sender {
+            // 恢复之前的按钮
+            UIView.animate(withDuration: 0.3) {
+                selectedButton.transform = .identity
+            }
+        }
+        
+        // 缩放当前按钮
+        UIView.animate(withDuration: 0.3) {
+            sender.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }
+        
+        // 更新当前选中的按钮
+        selectedButton = sender
     }
 }

@@ -7,11 +7,37 @@
 
 import Foundation
 import UIKit
-
-//屏高
+/// 屏高
 let kScreenHeight = UIScreen.main.bounds.size.height
-//屏宽
+/// 屏宽
 let kScreenWidth = UIScreen.main.bounds.size.width
+/// 主窗口
+public let kWindow = UIApplication.shared.keyWindow ?? UIWindow()
+/// 根VC
+public let kRootVC = kWindow.rootViewController ?? UIViewController()
+/// 动态获取安全区域
+var safeAreaInsets: UIEdgeInsets {
+    if #available(iOS 11.0, *) {
+        return UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets ?? UIEdgeInsets.zero
+    } else {
+        // 在iOS 11以下，安全区域概念不存在，返回UIEdgeInsets.zero
+        return UIEdgeInsets.zero
+    }
+}
+/// 顶部安全高度
+let kHeight_SafeTop = safeAreaInsets.top
+/// 状态栏高度，iOS 13以后，状态栏高度应通过safeAreaInsets.top获取
+let kStatusBarHeight = safeAreaInsets.top
+/// 导航栏高度（不包括顶部安全高度）
+let kNavBarHeight: CGFloat = 44.0
+/// 完整的导航栏高度（包括顶部安全高度）
+let kNavBarFullHeight = kStatusBarHeight + kNavBarHeight
+/// 底部安全区域高度
+let kHomeIndicatorHeight = safeAreaInsets.bottom
+/// tabbar高度（包括底部安全区域高度）
+let kTabBarHeight = kHomeIndicatorHeight + 49.0
+
+
 //贴纸图片数组
 let stickerImages: [UIImage] = (0...14).compactMap { UIImage(named: "Stickers\($0)") }
 //身体图片数组

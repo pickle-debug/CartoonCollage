@@ -19,7 +19,7 @@ class CoinsModel {
 
     init(initialCoins: Int = 50) { // 设定一个默认值或者从UserDefaults加载
         let savedCoins = UserDefaults.standard.integer(forKey: coinsKey)
-        coins = Observable(savedCoins > 0 ? savedCoins : initialCoins)
+        coins = Observable(savedCoins >= 0 ? savedCoins : initialCoins)
         saveCoinsToUserDefaults()
     }
 
@@ -38,4 +38,5 @@ class CoinsModel {
     private func saveCoinsToUserDefaults() {
         UserDefaults.standard.set(coins.value, forKey: coinsKey)
     }
+
 }

@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // 验证金币数据
-            verifyCoinsData()
+        verifyCoinsData()
+//        cleanCoinsData()
 
         // Override point for customization after application launch.
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
@@ -61,6 +62,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set(initialCoins, forKey: coinsKey)
         }
     }
+//    func cleanCoinsData() {
+//        let defaults = UserDefaults.standard
+//        let coinsKey = "userCoins" // 与CoinsModel中使用的键相同
+//
+//        // 检查是否已经有保存的金币数
+//        if defaults.object(forKey: coinsKey) == nil {
+//            // 没有找到保存的金币数，设置一个初始值
+//            let initialCoins = 0 // 你希望的默认金币数
+//            defaults.set(initialCoins, forKey: coinsKey)
+//        }
+//    }
 
     
 }

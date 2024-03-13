@@ -33,14 +33,26 @@ class CollageCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
         setupImageView()
     }
+    override func prepareForReuse() {
+          super.prepareForReuse()
+        imageView.frame.size = CGSize(width: 166, height: 166)
+          // 重置imageView的布局约束
+//          imageView.layout { view in
+//              view.width == 166  // 设定为默认尺寸
+//              view.height == 166 // 设定为默认尺寸
+//              view.centerX == contentView.centerX
+//              view.centerY == contentView.centerY
+//          }
+//          // 移除所有可能的自定义子视图或遮罩
+//          imageView.subviews.forEach { if $0.tag == 101 { $0.removeFromSuperview() } }
+      }
     
     private func setupImageView() {
         contentView.addSubview(imageView)
         imageView.backgroundColor = UIColor.init(hexString: "#E5FDFF")
         imageView.layer.cornerRadius = 23
+        imageView.frame.size = CGSize(width: 166, height: 166)
         imageView.layout { view in
-            view.height == 166
-            view.width == 166
             view.centerX == contentView.centerX
             view.centerY == contentView.centerY
         }

@@ -6,11 +6,16 @@
 //
 
 import UIKit
-
-class CCTextEditView: UIView {
+//protocol CCTextEditViewDelegate: AnyObject {
+//    func keyboardWillShow(in view: CCTextEditView, keyboardSize: CGRect)
+//    func keyboardWillHide(in view: CCTextEditView)
+//}
+class CCTextEditView: UIView, UITextFieldDelegate {
     // 定义闭包类型的属性，这个闭包接受一个String参数并返回Void
     var textDidUpdate: ((CCSubmitText) -> Void)?
     
+//    weak var delegate: CCTextEditViewDelegate?
+
     let colorLabel = UILabel()
     let fontLabel = UILabel()
     let textEditTF = UITextField()
@@ -18,18 +23,38 @@ class CCTextEditView: UIView {
     var selectedFont: UIFont = UIFont.systemFont(ofSize: 18)
     let textfontSelectView = CCFontSelectionView()
     var selectedColor: UIColor = .black
+    private var selectedColorView: UIView?
 
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+//        commonInit()
         setupUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+//        commonInit()
         setupUI()
     }
-    
+//    private func commonInit() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
+//    @objc func keyboardWillShow(notification: NSNotification) {
+//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+//            delegate?.keyboardWillShow(in: self, keyboardSize: keyboardSize)
+//        }
+//    }
+//
+//    @objc func keyboardWillHide(notification: NSNotification) {
+//        delegate?.keyboardWillHide(in: self)
+//    }
+//
+//    deinit {
+//        NotificationCenter.default.removeObserver(self)
+//    }
+//    
     func setupUI() {
         // 创建并配置colorLabel和colorIcon
         let colorIcon = createIcon(named: "coloricon")
@@ -130,9 +155,9 @@ class CCTextEditView: UIView {
             view.top == fontLabel.bottom + 9
             view.leading == self.leading + 16
         }
-
         self.addSubview(textEditTF)
         textEditTF.layer.borderWidth = 2
+        textEditTF.delegate = self
         textEditTF.layer.borderColor = UIColor.black.cgColor
         textEditTF.layer.cornerRadius = 41 / 2
         textEditTF.layer.masksToBounds = true
@@ -140,7 +165,7 @@ class CCTextEditView: UIView {
             view.height == 41
             view.width == 287
             view.leading == scrollView.leading + 16
-            view.bottom == self.bottom - 34
+            view.top == textfontSelectView.bottom + 26
         }
         
         let submitButton = UIButton(type: .system)
@@ -156,51 +181,15 @@ class CCTextEditView: UIView {
             view.centerY == textEditTF.centerY
             view.trailing == self.trailing - 18
         }
-
-        // 创建并配置inputAccessoryView
-        let accessoryView = createInputAccessoryView()
-        textEditTF.inputAccessoryView = accessoryView
-        DispatchQueue.main.async {
-            self.textEditTF.becomeFirstResponder()
-        }
-
-        
     }
-    func createInputAccessoryView() -> UIView {
-          let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 50))
-        accessoryView.backgroundColor = UIColor.lightGray
-          
-          // 创建一个“Done”按钮，用于关闭键盘
-          let doneButton = UIButton(type: .system)
-          doneButton.frame = CGRect(x: accessoryView.frame.width - 70, y: 10, width: 60, height: 30)
-          doneButton.setTitle("Done", for: .normal)
-          doneButton.addTarget(self, action: #selector(dismissKeyboard), for: .touchUpInside)
-          accessoryView.addSubview(doneButton)
-          
-        // 创建额外的输入框
-           let extraTextField = UITextField(frame: CGRect(x: 10, y: 10, width: accessoryView.frame.width - 90, height: 30))
-           extraTextField.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
-           accessoryView.addSubview(extraTextField)
-          
-          return accessoryView
-      }
-    
-    @objc func textFieldEditingChanged(_ textField: UITextField) {
-        DispatchQueue.main.async { [weak self] in
-            // 将 extraTextField 的内容同步到 textEditTF 中
-            self?.textEditTF.text = textField.text
-        }
-    }
-
-      @objc func dismissKeyboard() {
-          self.endEditing(true)
-      }
 
     // Helper functions to reduce redundancy
     func createLabel(text: String, fontSize: CGFloat) -> UILabel {
         let label = UILabel()
         label.text = text
         label.font = UIFont.systemFont(ofSize: fontSize, weight: .semibold)
+        label.textColor = .black // 支持暗黑模式的文本颜色
+
         return label
     }
 
@@ -212,15 +201,33 @@ class CCTextEditView: UIView {
     }
     // 实现手势识别器的动作方法
     @objc func handleTap(_ gesture: UITapGestureRecognizer) {
-        
-        if let colorView = gesture.view {
-            print(colorView.backgroundColor)
-            selectedColor = colorView.backgroundColor ?? .black
-            print(selectedColor)
-            // 这里可以处理颜色，例如打印出来或者使用闭包
-//            print("Color tapped:", color ?? "no color")
+        guard let tappedColorView = gesture.view else { return }
+
+        // 缩放选中的视图，恢复之前选中的视图
+        if let selectedColorView = selectedColorView, selectedColorView != tappedColorView {
+            // 恢复之前的视图
+            UIView.animate(withDuration: 0.3) {
+                selectedColorView.transform = .identity
+            }
         }
+        
+        // 如果当前视图没有放大，则放大之
+        if tappedColorView.transform == .identity {
+            UIView.animate(withDuration: 0.3) {
+                tappedColorView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }
+        } else {
+            // 如果已经放大，恢复到原始大小
+            UIView.animate(withDuration: 0.3) {
+                tappedColorView.transform = .identity
+            }
+        }
+
+        // 更新当前选中的视图
+        selectedColorView = tappedColorView.transform == .identity ? nil : tappedColorView
+        selectedColor = selectedColorView?.backgroundColor ?? .black
     }
+
 
     @objc private func submitButtonTapped() {
            // 当textField的内容变化时，触发闭包
@@ -228,9 +235,9 @@ class CCTextEditView: UIView {
             print("Selected font: \(font.fontName)")
             self.selectedFont = font
         }
-        print(textEditTF.text)
-        print(selectedColor ?? UIColor.black)
-        print(selectedFont ?? UIFont.systemFont(ofSize: 16))
+//        print(textEditTF.text)
+//        print(selectedColor ?? UIColor.black)
+//        print(selectedFont ?? UIFont.systemFont(ofSize: 16))
         let submitText = CCSubmitText(text: textEditTF.text ?? "", font: selectedFont ?? UIFont.systemFont(ofSize: 16), color: selectedColor ?? UIColor.black)
         print(submitText)
 
