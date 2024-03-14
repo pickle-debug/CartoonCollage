@@ -78,7 +78,6 @@ class StoreViewController: UIViewController {
         coinsCount.layer.masksToBounds = true
         // 设置自动调整字体大小以适应宽度
         coinsCount.adjustsFontSizeToFitWidth = true
-
         // 设置字体缩小的最小比例，这里设为0.5表示最小可以缩小到原字体的50%
         coinsCount.minimumScaleFactor = 0.5
 //        self.view.addSubview(coinsCount)
@@ -108,6 +107,9 @@ class StoreViewController: UIViewController {
         topBanner.layout { view in
             view.width == kScreenWidth
             view.height == 276
+            view.top == view.superview.top
+            view.centerX == view.superview.centerX
+
         }
         self.view.sendSubviewToBack(topBanner)
         
@@ -121,18 +123,15 @@ class StoreViewController: UIViewController {
             view.centerX == view.superview.centerX
         }
         
-        
         var lastButton: CCBuyButton? = nil
         for (coins, price) in priceDict {
             let buyButton = CCBuyButton(frame: .zero, price: "$\(price)", coins: "\(coins) coins")
             self.view.addSubview(buyButton)
             buyButton.layout { view in
-                view.width == 340
-                view.height == 93
+                view.width == kScreenWidth * 0.9
+                view.height == kScreenHeight * 0.11
                 view.centerX == self.view.centerX
             }
-            
-            
             if let lastButton = lastButton {
                 buyButton.layout { view in
                     view.top == lastButton.bottom + 5
@@ -155,6 +154,13 @@ class StoreViewController: UIViewController {
             // 更新lastButton引用为当前按钮
             lastButton = buyButton
         }
+        // 遍历结束后，设置最后一个按钮的底部约束
+        if let lastButton = lastButton {
+            NSLayoutConstraint.activate([
+                lastButton.bottomAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20) // 这里的-20是示例值，您可以根据实际需要调整
+            ])
+        }
+
         
     }
     // The selector method for button press action

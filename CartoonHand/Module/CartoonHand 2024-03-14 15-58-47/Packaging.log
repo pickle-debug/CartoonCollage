@@ -1,0 +1,222 @@
+2024-03-14 07:58:40 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x421986200; archive(resolved)="<IDEArchive: 0x60002bf72be0>", distributionTask(resolved)="2", distributionDestination(resolved)="1", distributionMethod(resolved)="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team(resolved)="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	Chain (15, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0x421986200; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	<IDEDistributionProcessingPipelineContext: 0x2b7045310; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x41bdfa110; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x41bdf9ba0; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x12e65a4f0; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x41bdfa6a0; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x12e6228c0; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x12e6e1690; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2b707b280; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x60000c456740; teamID='T58WU9JJ3S', teamName='Yusuf Orhan', teamType='(null)', username='(null)', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2b7044c40; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="(null)">
+	<IDEDistributionContext: 0x12e6f20f0; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="(null)">
+	<IDEDistributionContext: 0x12e6c4240; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="(null)">
+	<IDEDistributionContext: 0x41bd93090; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60002580b640>", team="(null)">
+	<IDEDistributionContext: 0x427cf26d0; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="(null)", team="(null)">
+	<IDEDistributionContext: 0x2a57c64a0; archive = "<IDEArchive: 0x60002bf72be0>", distributionMethod="(null)", team="(null)">
+</IDEDistributionProcessingPipelineContext: 0x421986200>
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionCreateDestRootStep
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionCopyItemStep
+2024-03-14 07:58:40 +0000  Running /usr/bin/ditto '-V' '/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app' '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app'
+2024-03-14 07:58:40 +0000  >>> Copying /Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app 
+2024-03-14 07:58:40 +0000  copying file ./_CodeSignature/CodeResources ... 
+2024-03-14 07:58:40 +0000  6127 bytes for ./_CodeSignature/CodeResources
+2024-03-14 07:58:40 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib ... 
+2024-03-14 07:58:40 +0000  967 bytes for ./Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib
+2024-03-14 07:58:40 +0000  copying file ./Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib ... 
+2024-03-14 07:58:40 +0000  1225 bytes for ./Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib
+2024-03-14 07:58:40 +0000  copying file ./Base.lproj/Main.storyboardc/Info.plist ... 
+2024-03-14 07:58:40 +0000  258 bytes for ./Base.lproj/Main.storyboardc/Info.plist
+2024-03-14 07:58:40 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib ... 
+2024-03-14 07:58:40 +0000  2500 bytes for ./Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib
+2024-03-14 07:58:40 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib ... 
+2024-03-14 07:58:40 +0000  924 bytes for ./Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib
+2024-03-14 07:58:40 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/Info.plist ... 
+2024-03-14 07:58:40 +0000  258 bytes for ./Base.lproj/LaunchScreen.storyboardc/Info.plist
+2024-03-14 07:58:40 +0000  copying file ./Assets.car ... 
+2024-03-14 07:58:40 +0000  14320552 bytes for ./Assets.car
+2024-03-14 07:58:40 +0000  copying file ./Frameworks/SwiftyStoreKit.framework/_CodeSignature/CodeResources ... 
+2024-03-14 07:58:40 +0000  1798 bytes for ./Frameworks/SwiftyStoreKit.framework/_CodeSignature/CodeResources
+2024-03-14 07:58:40 +0000  copying file ./Frameworks/SwiftyStoreKit.framework/SwiftyStoreKit ... 
+2024-03-14 07:58:40 +0000  521600 bytes for ./Frameworks/SwiftyStoreKit.framework/SwiftyStoreKit
+2024-03-14 07:58:40 +0000  copying file ./Frameworks/SwiftyStoreKit.framework/Info.plist ... 
+2024-03-14 07:58:40 +0000  799 bytes for ./Frameworks/SwiftyStoreKit.framework/Info.plist
+2024-03-14 07:58:40 +0000  copying file ./Frameworks/Toast_Swift.framework/_CodeSignature/CodeResources ... 
+2024-03-14 07:58:40 +0000  2034 bytes for ./Frameworks/Toast_Swift.framework/_CodeSignature/CodeResources
+2024-03-14 07:58:40 +0000  copying file ./Frameworks/Toast_Swift.framework/Toast_Swift ... 
+2024-03-14 07:58:40 +0000  182016 bytes for ./Frameworks/Toast_Swift.framework/Toast_Swift
+2024-03-14 07:58:40 +0000  copying file ./Frameworks/Toast_Swift.framework/PrivacyInfo.xcprivacy ... 
+2024-03-14 07:58:40 +0000  372 bytes for ./Frameworks/Toast_Swift.framework/PrivacyInfo.xcprivacy
+2024-03-14 07:58:40 +0000  copying file ./Frameworks/Toast_Swift.framework/Info.plist ... 
+2024-03-14 07:58:40 +0000  793 bytes for ./Frameworks/Toast_Swift.framework/Info.plist
+2024-03-14 07:58:40 +0000  copying file ./embedded.mobileprovision ... 
+2024-03-14 07:58:40 +0000  13165 bytes for ./embedded.mobileprovision
+2024-03-14 07:58:40 +0000  copying file ./Info.plist ... 
+2024-03-14 07:58:40 +0000  1411 bytes for ./Info.plist
+2024-03-14 07:58:40 +0000  copying file ./CartoonHand ... 
+2024-03-14 07:58:40 +0000  344816 bytes for ./CartoonHand
+2024-03-14 07:58:40 +0000  copying file ./PkgInfo ... 
+2024-03-14 07:58:40 +0000  8 bytes for ./PkgInfo
+2024-03-14 07:58:40 +0000  /usr/bin/ditto exited with 0
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionEmbedProfileStep
+2024-03-14 07:58:40 +0000  Skipping profile for item: <IDEDistributionItem: 0x600053e7b7e0; bundleID='org.cocoapods.SwiftyStoreKit', path='<DVTFilePath:0x60000f6d9b80:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/SwiftyStoreKit.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x60002fadda90; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x60002efec780; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='(null)', teamID='T58WU9JJ3S', identifier='org.cocoapods.SwiftyStoreKit', executablePath='<DVTFilePath:0x6000332433a0:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/SwiftyStoreKit'>', hardenedRuntime='0'>'>
+2024-03-14 07:58:40 +0000  Skipping profile for item: <IDEDistributionItem: 0x600053e7a3a0; bundleID='org.cocoapods.Toast-Swift', path='<DVTFilePath:0x600033208c40:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/Toast_Swift.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600037ac3390; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x60002efec780; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='(null)', teamID='T58WU9JJ3S', identifier='org.cocoapods.Toast-Swift', executablePath='<DVTFilePath:0x6000331f0a80:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/Toast_Swift.framework/Toast_Swift'>', hardenedRuntime='0'>'>
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionInfoPlistStep
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionAppThinningPlistStep
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionCompileBitcodeStep
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionCompileBitcodeStep because it said so
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionCodeSlimmingStep
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionCopyBCSymbolMapsStep
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionSymbolsStep
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionAppThinningStep
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionArchThinningStep
+2024-03-14 07:58:40 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/SwiftyStoreKit' '-verify_arch' 'arm64e'
+2024-03-14 07:58:40 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2024-03-14 07:58:40 +0000  Skipping architecture thinning for item "SwiftyStoreKit" because arch "arm64e" wasn't found
+2024-03-14 07:58:40 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/Toast_Swift.framework/Toast_Swift' '-verify_arch' 'arm64e'
+2024-03-14 07:58:40 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2024-03-14 07:58:40 +0000  Skipping architecture thinning for item "Toast_Swift" because arch "arm64e" wasn't found
+2024-03-14 07:58:40 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/CartoonHand' '-verify_arch' 'arm64e'
+2024-03-14 07:58:40 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2024-03-14 07:58:40 +0000  Skipping architecture thinning for item "CartoonHand" because arch "arm64e" wasn't found
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionODRStep
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionStripXattrsStep
+2024-03-14 07:58:40 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2024-03-14 07:58:40 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2024-03-14 07:58:40 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionCodesignStep
+2024-03-14 07:58:40 +0000  Entitlements for <IDEDistributionItem: 0x600053e7b7e0; bundleID='org.cocoapods.SwiftyStoreKit', path='<DVTFilePath:0x60000f6d9b80:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/SwiftyStoreKit.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x60002fadda90; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600026fd79c0; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='(null)', teamID='T58WU9JJ3S', identifier='org.cocoapods.SwiftyStoreKit', executablePath='<DVTFilePath:0x6000332433a0:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/SwiftyStoreKit'>', hardenedRuntime='0'>'>: {
+}
+2024-03-14 07:58:40 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2024-03-14 07:58:40 +0000  Entitlements for <IDEDistributionItem: 0x600053e7b7e0; bundleID='org.cocoapods.SwiftyStoreKit', path='<DVTFilePath:0x60000f6d9b80:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/SwiftyStoreKit.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x60002fadda90; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600026fd5e00; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='(null)', teamID='T58WU9JJ3S', identifier='org.cocoapods.SwiftyStoreKit', executablePath='<DVTFilePath:0x6000332433a0:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/SwiftyStoreKit'>', hardenedRuntime='0'>'> are: {
+}
+2024-03-14 07:58:40 +0000  Writing entitlements for <IDEDistributionItem: 0x600053e7b7e0; bundleID='org.cocoapods.SwiftyStoreKit', path='<DVTFilePath:0x60000f6d9b80:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/SwiftyStoreKit.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x60002fadda90; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600026fd5680; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='(null)', teamID='T58WU9JJ3S', identifier='org.cocoapods.SwiftyStoreKit', executablePath='<DVTFilePath:0x6000332433a0:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/SwiftyStoreKit'>', hardenedRuntime='0'>'> to: /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/entitlements~~~Qq5yy8
+2024-03-14 07:58:40 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' 'B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE' '--entitlements' '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/entitlements~~~Qq5yy8' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework'
+2024-03-14 07:58:40 +0000  /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework: replacing existing signature
+2024-03-14 07:58:40 +0000  /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework: signed bundle with Mach-O thin (arm64) [org.cocoapods.SwiftyStoreKit]
+2024-03-14 07:58:40 +0000  /usr/bin/codesign exited with 0
+2024-03-14 07:58:40 +0000  Entitlements for <IDEDistributionItem: 0x600053e7a3a0; bundleID='org.cocoapods.Toast-Swift', path='<DVTFilePath:0x600033208c40:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/Toast_Swift.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600037ac3390; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600026f03000; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='(null)', teamID='T58WU9JJ3S', identifier='org.cocoapods.Toast-Swift', executablePath='<DVTFilePath:0x6000331f0a80:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/Toast_Swift.framework/Toast_Swift'>', hardenedRuntime='0'>'>: {
+}
+2024-03-14 07:58:40 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2024-03-14 07:58:40 +0000  Entitlements for <IDEDistributionItem: 0x600053e7a3a0; bundleID='org.cocoapods.Toast-Swift', path='<DVTFilePath:0x600033208c40:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/Toast_Swift.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600037ac3390; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600026f03e40; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='(null)', teamID='T58WU9JJ3S', identifier='org.cocoapods.Toast-Swift', executablePath='<DVTFilePath:0x6000331f0a80:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/Toast_Swift.framework/Toast_Swift'>', hardenedRuntime='0'>'> are: {
+}
+2024-03-14 07:58:40 +0000  Writing entitlements for <IDEDistributionItem: 0x600053e7a3a0; bundleID='org.cocoapods.Toast-Swift', path='<DVTFilePath:0x600033208c40:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/Toast_Swift.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600037ac3390; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600026f624c0; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='(null)', teamID='T58WU9JJ3S', identifier='org.cocoapods.Toast-Swift', executablePath='<DVTFilePath:0x6000331f0a80:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/Frameworks/Toast_Swift.framework/Toast_Swift'>', hardenedRuntime='0'>'> to: /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/entitlements~~~XnB5IM
+2024-03-14 07:58:40 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' 'B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE' '--entitlements' '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/entitlements~~~XnB5IM' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/Toast_Swift.framework'
+2024-03-14 07:58:40 +0000  /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/Toast_Swift.framework: replacing existing signature
+2024-03-14 07:58:40 +0000  /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/Toast_Swift.framework: signed bundle with Mach-O thin (arm64) [org.cocoapods.Toast-Swift]
+2024-03-14 07:58:40 +0000  /usr/bin/codesign exited with 0
+2024-03-14 07:58:40 +0000  Entitlements for <IDEDistributionItem: 0x60001fe03960; bundleID='com.addtatto.nicely', path='<DVTFilePath:0x600033209ea0:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600037951400; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600026fd5680; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='{
+    "application-identifier" = "T58WU9JJ3S.com.addtatto.nicely";
+    "com.apple.developer.team-identifier" = T58WU9JJ3S;
+    "get-task-allow" = 1;
+}', teamID='T58WU9JJ3S', identifier='com.addtatto.nicely', executablePath='<DVTFilePath:0x600033240230:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/CartoonHand'>', hardenedRuntime='0'>'>: {
+    "application-identifier" = "T58WU9JJ3S.com.addtatto.nicely";
+    "com.apple.developer.team-identifier" = T58WU9JJ3S;
+    "get-task-allow" = 1;
+}
+2024-03-14 07:58:40 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2024-03-14 07:58:40 +0000  Entitlements for <IDEDistributionItem: 0x60001fe03960; bundleID='com.addtatto.nicely', path='<DVTFilePath:0x600033209ea0:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600037951400; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600026f624c0; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='{
+    "application-identifier" = "T58WU9JJ3S.com.addtatto.nicely";
+    "com.apple.developer.team-identifier" = T58WU9JJ3S;
+    "get-task-allow" = 1;
+}', teamID='T58WU9JJ3S', identifier='com.addtatto.nicely', executablePath='<DVTFilePath:0x600033240230:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/CartoonHand'>', hardenedRuntime='0'>'> are: {
+    "application-identifier" = "T58WU9JJ3S.com.addtatto.nicely";
+    "com.apple.developer.team-identifier" = T58WU9JJ3S;
+    "get-task-allow" = 1;
+}
+2024-03-14 07:58:40 +0000  Writing entitlements for <IDEDistributionItem: 0x60001fe03960; bundleID='com.addtatto.nicely', path='<DVTFilePath:0x600033209ea0:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600037951400; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600026fd2640; name='iPhone Developer: Yusuf Orhan (5CW8M3DC48)', hash='B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE', serialNumber='51A463588BBE4650C6FBE09A6EF1FD59', certificateKinds='(
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-10 08:23:11 +0000''>', entitlements='{
+    "application-identifier" = "T58WU9JJ3S.com.addtatto.nicely";
+    "com.apple.developer.team-identifier" = T58WU9JJ3S;
+    "get-task-allow" = 1;
+}', teamID='T58WU9JJ3S', identifier='com.addtatto.nicely', executablePath='<DVTFilePath:0x600033240230:'/Users/kanwenyu/Library/Developer/Xcode/Archives/2024-03-14/CartoonHand 2024-3-14, 15.56.xcarchive/Products/Applications/CartoonHand.app/CartoonHand'>', hardenedRuntime='0'>'> to: /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/entitlements~~~Ep5rp0
+2024-03-14 07:58:40 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' 'B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE' '--entitlements' '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/entitlements~~~Ep5rp0' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app'
+2024-03-14 07:58:40 +0000  /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app: replacing existing signature
+2024-03-14 07:58:40 +0000  /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app: signed app bundle with Mach-O thin (arm64) [com.addtatto.nicely]
+2024-03-14 07:58:40 +0000  /usr/bin/codesign exited with 0
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionZipODRItemStep
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2024-03-14 07:58:40 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2024-03-14 07:58:40 +0000  Processing step: IDEDistributionCreateIPAStep
+2024-03-14 07:58:40 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root' '/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Packages/CartoonHand.ipa'
+2024-03-14 07:58:40 +0000  >>> Copying /var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root 
+2024-03-14 07:58:40 +0000  copying file ./Payload/CartoonHand.app/_CodeSignature/CodeResources ... 
+2024-03-14 07:58:40 +0000  6127 bytes for ./Payload/CartoonHand.app/_CodeSignature/CodeResources
+2024-03-14 07:58:40 +0000  copying file ./Payload/CartoonHand.app/Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib ... 
+2024-03-14 07:58:40 +0000  967 bytes for ./Payload/CartoonHand.app/Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib
+2024-03-14 07:58:40 +0000  copying file ./Payload/CartoonHand.app/Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib ... 
+2024-03-14 07:58:40 +0000  1225 bytes for ./Payload/CartoonHand.app/Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib
+2024-03-14 07:58:40 +0000  copying file ./Payload/CartoonHand.app/Base.lproj/Main.storyboardc/Info.plist ... 
+2024-03-14 07:58:40 +0000  258 bytes for ./Payload/CartoonHand.app/Base.lproj/Main.storyboardc/Info.plist
+copying file ./Payload/CartoonHand.app/Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib ... 
+2024-03-14 07:58:40 +0000  2500 bytes for ./Payload/CartoonHand.app/Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib
+2024-03-14 07:58:40 +0000  copying file ./Payload/CartoonHand.app/Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib ... 
+2024-03-14 07:58:40 +0000  924 bytes for ./Payload/CartoonHand.app/Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib
+copying file ./Payload/CartoonHand.app/Base.lproj/LaunchScreen.storyboardc/Info.plist ... 
+2024-03-14 07:58:40 +0000  258 bytes for ./Payload/CartoonHand.app/Base.lproj/LaunchScreen.storyboardc/Info.plist
+2024-03-14 07:58:40 +0000  copying file ./Payload/CartoonHand.app/Assets.car ... 
+2024-03-14 07:58:41 +0000  14320552 bytes for ./Payload/CartoonHand.app/Assets.car
+2024-03-14 07:58:41 +0000  copying file ./Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/_CodeSignature/CodeResources ... 
+1798 bytes for ./Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/_CodeSignature/CodeResources
+copying file ./Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/SwiftyStoreKit ... 
+2024-03-14 07:58:41 +0000  521904 bytes for ./Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/SwiftyStoreKit
+copying file ./Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/Info.plist ... 
+2024-03-14 07:58:41 +0000  799 bytes for ./Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework/Info.plist
+2024-03-14 07:58:41 +0000  copying file ./Payload/CartoonHand.app/Frameworks/Toast_Swift.framework/_CodeSignature/CodeResources ... 
+2024-03-14 07:58:41 +0000  2034 bytes for ./Payload/CartoonHand.app/Frameworks/Toast_Swift.framework/_CodeSignature/CodeResources
+2024-03-14 07:58:41 +0000  copying file ./Payload/CartoonHand.app/Frameworks/Toast_Swift.framework/Toast_Swift ... 
+2024-03-14 07:58:41 +0000  182272 bytes for ./Payload/CartoonHand.app/Frameworks/Toast_Swift.framework/Toast_Swift
+copying file ./Payload/CartoonHand.app/Frameworks/Toast_Swift.framework/PrivacyInfo.xcprivacy ... 
+2024-03-14 07:58:41 +0000  372 bytes for ./Payload/CartoonHand.app/Frameworks/Toast_Swift.framework/PrivacyInfo.xcprivacy
+copying file ./Payload/CartoonHand.app/Frameworks/Toast_Swift.framework/Info.plist ... 
+2024-03-14 07:58:41 +0000  793 bytes for ./Payload/CartoonHand.app/Frameworks/Toast_Swift.framework/Info.plist
+copying file ./Payload/CartoonHand.app/embedded.mobileprovision ... 
+2024-03-14 07:58:41 +0000  13165 bytes for ./Payload/CartoonHand.app/embedded.mobileprovision
+2024-03-14 07:58:41 +0000  copying file ./Payload/CartoonHand.app/Info.plist ... 
+2024-03-14 07:58:41 +0000  1411 bytes for ./Payload/CartoonHand.app/Info.plist
+2024-03-14 07:58:41 +0000  copying file ./Payload/CartoonHand.app/CartoonHand ... 
+2024-03-14 07:58:41 +0000  344816 bytes for ./Payload/CartoonHand.app/CartoonHand
+copying file ./Payload/CartoonHand.app/PkgInfo ... 
+2024-03-14 07:58:41 +0000  8 bytes for ./Payload/CartoonHand.app/PkgInfo
+2024-03-14 07:58:41 +0000  /usr/bin/ditto exited with 0
+2024-03-14 07:58:41 +0000  Processing step: IDEDistributionAppStoreInformationStep
+2024-03-14 07:58:41 +0000  Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2024-03-14 07:58:41 +0000  Processing step: IDEDistributionGenerateProcessedDistributionItems
+2024-03-14 07:58:41 +0000  IDEDistributionItem init <DVTFilePath:0x600017531600:'/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/SwiftyStoreKit.framework'>
+2024-03-14 07:58:41 +0000  IDEDistributionItem init <DVTFilePath:0x600033154ee0:'/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app/Frameworks/Toast_Swift.framework'>
+2024-03-14 07:58:41 +0000  IDEDistributionItem init <DVTFilePath:0x6000331ad500:'/var/folders/1k/b695rs9n21v75hg50zkw1tj00000gp/T/XcodeDistPipeline.~~~97hgiV/Root/Payload/CartoonHand.app'>
+2024-03-14 07:58:41 +0000  Processing step: IDEDistributionCreateManifestStep

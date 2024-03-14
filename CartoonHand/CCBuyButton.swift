@@ -29,9 +29,12 @@ class CCBuyButton: UIButton {
     
     // 设置视图和标签
     private func setupViews() {
+//        let backgroundImage = UIImage(named: "buyButtonBackground")
         // 设置背景图片
-        self.backgroundColor = UIColor(patternImage: UIImage(named: "buyButtonBackground")!)
-        
+//        self.backgroundColor = UIColor(patternImage: UIImage(named: "buyButtonBackground")!.withRenderingMode(.alwaysTemplate))
+        if let backgroundImage = UIImage(named: "buyButtonBackground")?.withRenderingMode(.alwaysOriginal) {
+               self.setBackgroundImage(backgroundImage, for: .normal)
+           }
         // 设置中间的标签
         centerLabel.textAlignment = .center
         centerLabel.textColor = .black // 可以根据需要调整
@@ -52,9 +55,11 @@ class CCBuyButton: UIButton {
         rightLabel.textColor = .white // 可以根据需要调整
         self.addSubview(rightLabel)
         rightLabel.layout { view in
-            view.height == 75
-            view.width == 75
-            view.trailing == self.trailing
+            view.height == kScreenHeight * 0.1
+            view.width == view.height
+            view.trailing == self.trailing - kScreenWidth * 0.02
+//            view.leading == self.leading + self.width * 0.8
+
             view.centerY == self.centerY
         }
     }

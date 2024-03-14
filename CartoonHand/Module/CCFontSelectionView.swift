@@ -43,6 +43,7 @@ class CCFontSelectionView: UIView {
             button.translatesAutoresizingMaskIntoConstraints = false
             button.backgroundColor = UIColor.init(hexString: "#687BFB")
             button.setTitleColor(.white, for: .normal)
+         
             scrollView.addSubview(button)
             
             button.layout { view in
@@ -56,7 +57,7 @@ class CCFontSelectionView: UIView {
                 }
             } else {
                 button.layout { view in
-                    view.leading == scrollView.leading + 12
+                    view.leading == scrollView.leading
                 }
             }
             
@@ -82,16 +83,13 @@ class CCFontSelectionView: UIView {
         // 缩放选中的按钮，恢复之前选中的按钮
         if let selectedButton = selectedButton, selectedButton != sender {
             // 恢复之前的按钮
-            UIView.animate(withDuration: 0.3) {
-                selectedButton.transform = .identity
-            }
+            selectedButton.layer.borderWidth = 0
+            selectedButton.layer.borderColor = UIColor.clear.cgColor
         }
         
         // 缩放当前按钮
-        UIView.animate(withDuration: 0.3) {
-            sender.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        }
-        
+        sender.layer.borderWidth = 2
+        sender.layer.borderColor = UIColor.black.cgColor
         // 更新当前选中的按钮
         selectedButton = sender
     }

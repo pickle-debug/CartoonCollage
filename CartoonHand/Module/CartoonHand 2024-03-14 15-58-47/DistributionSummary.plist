@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CartoonHand.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>1</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE</string>
+				<key>dateExpires</key>
+				<string>2024/7/9</string>
+				<key>type</key>
+				<string>iOS Development</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE</string>
+						<key>dateExpires</key>
+						<string>2024/7/9</string>
+						<key>type</key>
+						<string>iOS Development</string>
+					</dict>
+					<key>name</key>
+					<string>SwiftyStoreKit.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>T58WU9JJ3S</string>
+						<key>name</key>
+						<string>Yusuf Orhan</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>0.16.1</string>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>B52FD01819D22EBB93E8E67FA0492A7C4A95B4DE</string>
+						<key>dateExpires</key>
+						<string>2024/7/9</string>
+						<key>type</key>
+						<string>iOS Development</string>
+					</dict>
+					<key>name</key>
+					<string>Toast_Swift.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>T58WU9JJ3S</string>
+						<key>name</key>
+						<string>Yusuf Orhan</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>5.1.0</string>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>T58WU9JJ3S.com.addtatto.nicely</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>T58WU9JJ3S</string>
+				<key>get-task-allow</key>
+				<true/>
+			</dict>
+			<key>name</key>
+			<string>CartoonHand.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>b394c997-b980-40b5-9ef7-2f258dfaba9d</string>
+				<key>dateExpires</key>
+				<string>2024/10/16</string>
+				<key>name</key>
+				<string>add-testpro</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>T58WU9JJ3S</string>
+				<key>name</key>
+				<string>Yusuf Orhan</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>1.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>

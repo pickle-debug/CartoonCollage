@@ -116,7 +116,7 @@ class CCBackgroundEditView: UIView {
             flowLayout.itemSize = CGSize(width: 166, height: 166) // 设置每个单元格的大小
             flowLayout.minimumInteritemSpacing = 11 // 设置单元格之间的最小间距
             flowLayout.minimumLineSpacing = 16 // 设置行之间的最小间距
-            flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 57, right: 16) // 设置内容区域的内边距
+            flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 140, right: 16) // 设置内容区域的内边距
         }
     }
     @objc func viewTapped(_ gesture: UITapGestureRecognizer) {

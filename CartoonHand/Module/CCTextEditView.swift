@@ -6,55 +6,33 @@
 //
 
 import UIKit
-//protocol CCTextEditViewDelegate: AnyObject {
-//    func keyboardWillShow(in view: CCTextEditView, keyboardSize: CGRect)
-//    func keyboardWillHide(in view: CCTextEditView)
-//}
+
 class CCTextEditView: UIView, UITextFieldDelegate {
     // 定义闭包类型的属性，这个闭包接受一个String参数并返回Void
     var textDidUpdate: ((CCSubmitText) -> Void)?
     
-//    weak var delegate: CCTextEditViewDelegate?
 
     let colorLabel = UILabel()
     let fontLabel = UILabel()
-    let textEditTF = UITextField()
+    let textEditTF = CCPaddedTextField()
     
     var selectedFont: UIFont = UIFont.systemFont(ofSize: 18)
     let textfontSelectView = CCFontSelectionView()
     var selectedColor: UIColor = .black
     private var selectedColorView: UIView?
+    let elementHeight = kScreenHeight * 0.05
+    
 
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        commonInit()
         setupUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-//        commonInit()
         setupUI()
     }
-//    private func commonInit() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//    @objc func keyboardWillShow(notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-//            delegate?.keyboardWillShow(in: self, keyboardSize: keyboardSize)
-//        }
-//    }
-//
-//    @objc func keyboardWillHide(notification: NSNotification) {
-//        delegate?.keyboardWillHide(in: self)
-//    }
-//
-//    deinit {
-//        NotificationCenter.default.removeObserver(self)
-//    }
-//    
     func setupUI() {
         // 创建并配置colorLabel和colorIcon
         let colorIcon = createIcon(named: "coloricon")
@@ -66,7 +44,7 @@ class CCTextEditView: UIView, UITextFieldDelegate {
             view.height == 20
             view.width == 20
             view.leading == self.leading + 16
-            view.top == self.top + 61
+            view.top == self.top + kScreenHeight * 0.07
         }
         colorLabel.layout { view in
             view.leading == colorIcon.trailing + 11
@@ -150,22 +128,23 @@ class CCTextEditView: UIView, UITextFieldDelegate {
         
         self.addSubview(textfontSelectView)
         textfontSelectView.layout { view in
-            view.height == 36
+            view.height == elementHeight
             view.width == self.width
             view.top == fontLabel.bottom + 9
             view.leading == self.leading + 16
         }
+        
         self.addSubview(textEditTF)
         textEditTF.layer.borderWidth = 2
         textEditTF.delegate = self
         textEditTF.layer.borderColor = UIColor.black.cgColor
-        textEditTF.layer.cornerRadius = 41 / 2
+        textEditTF.layer.cornerRadius = elementHeight / 2
         textEditTF.layer.masksToBounds = true
         textEditTF.layout { view in
-            view.height == 41
-            view.width == 287
+            view.height == elementHeight
+            view.width == kScreenWidth * 0.76
             view.leading == scrollView.leading + 16
-            view.top == textfontSelectView.bottom + 26
+            view.top == textfontSelectView.bottom + kScreenHeight * 0.02
         }
         
         let submitButton = UIButton(type: .system)
@@ -174,10 +153,14 @@ class CCTextEditView: UIView, UITextFieldDelegate {
         submitButton.backgroundColor = .clear
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 27,weight: .bold)
+        // 设置自动调整字体大小以适应宽度
+        submitButton.titleLabel!.adjustsFontSizeToFitWidth = true
+        // 设置字体缩小的最小比例，这里设为0.5表示最小可以缩小到原字体的50%
+        submitButton.titleLabel!.minimumScaleFactor = 0.5
         self.addSubview(submitButton)
         submitButton.layout { view in
-            view.height == 32
-            view.width == 41
+            view.height == textEditTF.height
+            view.width == view.height
             view.centerY == textEditTF.centerY
             view.trailing == self.trailing - 18
         }
@@ -235,14 +218,12 @@ class CCTextEditView: UIView, UITextFieldDelegate {
             print("Selected font: \(font.fontName)")
             self.selectedFont = font
         }
-//        print(textEditTF.text)
-//        print(selectedColor ?? UIColor.black)
-//        print(selectedFont ?? UIFont.systemFont(ofSize: 16))
-        let submitText = CCSubmitText(text: textEditTF.text ?? "", font: selectedFont ?? UIFont.systemFont(ofSize: 16), color: selectedColor ?? UIColor.black)
-        print(submitText)
 
+        let submitText = CCSubmitText(text: textEditTF.text ?? "", font: selectedFont ?? UIFont.systemFont(ofSize: 16), color: selectedColor ?? UIColor.black)
+        
         textDidUpdate?(submitText)
-//        print(textDidUpdate)
+        textEditTF.endEditing(true)
+
        }
 
 }

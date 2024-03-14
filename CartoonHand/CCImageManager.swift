@@ -20,7 +20,7 @@ class ImageManager {
     }
     //存储了每个类别中需要收费的图片索引。
     private var paidImageRules: [ImageCategory: (Int) -> Bool] = [
-        .sticker: { [0, 2, 5].contains($0) },//贴纸第1、3、6收费
+        .sticker: { [1, 2, 5].contains($0) },//贴纸第1、3、6收费
         .body: { _ in false }, // 身体全部都为免费
         .head: { $0 >= 1 && $0 <= 6 }, // 卡通头像第2个到第7个为收费
         .realHead: { $0 != 0 }, // 真人图像仅有第一个免费

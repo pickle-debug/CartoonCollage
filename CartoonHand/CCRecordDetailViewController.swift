@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Photos
 
 class CCRecordDetailViewController: UIViewController {
 
@@ -94,9 +95,39 @@ class CCRecordDetailViewController: UIViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
     @objc func saveImage() {
-        UIImageWriteToSavedPhotosAlbum(imageInSandBox.image, nil, nil, nil)
-        print("saved")
+        PHPhotoLibrary.requestAuthorization { status in
+            DispatchQueue.main.async {
+                switch status {
+                case .authorized:
+                    // 有权限，保存图片到相册
+                    UIImageWriteToSavedPhotosAlbum(self.imageInSandBox.image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
+                case .denied, .restricted, .limited:
+                    // 无权限
+                    self.view.makeToast("Photo library access denied or restricted.", title: "Save failed")
+
+                    print("Photo library access denied or restricted.")
+                default:
+                    // 未决定，一般不会执行到这里
+                    break
+                }
+            }
+        }
     }
+    // 保存图片后的回调方法
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // 保存失败
+            self.view.makeToast("Error Save",duration: 1.0,position: .center)
+
+            print("Error Saving: \(error.localizedDescription)")
+        } else {
+            // 保存成功
+            self.view.makeToast("Image Saved Successfully",duration: 1.0,position: .center)
+
+            print("Image Saved Successfully")
+        }
+    }
+    
     @objc func deleteImage() {
         deleteImageFromSandbox(fileName: imageInSandBox.filename)
         self.navigationController?.popToRootViewController(animated: true)
@@ -106,6 +137,8 @@ class CCRecordDetailViewController: UIViewController {
     func deleteImageFromSandbox(fileName: String) {
         // 获取沙盒的Documents目录路径
         guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            self.view.makeToast("Failed to access documents directory",duration: 1.0,position: .center)
+
             print("Failed to access documents directory")
             return
         }
@@ -118,12 +151,18 @@ class CCRecordDetailViewController: UIViewController {
             do {
                 // 尝试删除文件
                 try FileManager.default.removeItem(at: fileURL)
+                self.view.makeToast("Image deleted successfully in documents directory",duration: 1.0,position: .center)
+
                 print("File deleted successfully: \(fileName)")
             } catch {
                 // 删除失败，处理错误
+                self.view.makeToast("Image error deleting in documents directory",duration: 1.0,position: .center)
+
                 print("Error deleting file: \(error.localizedDescription)")
             }
         } else {
+            self.view.makeToast("Image does not exist in documents directory",duration: 1.0,position: .center)
+
             print("File does not exist: \(fileName)")
         }
     }

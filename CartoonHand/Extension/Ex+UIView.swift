@@ -36,3 +36,10 @@ extension UIView {
           self.layer.insertSublayer(backgroundLayer, at: 0)
       }
 }
+
+// 扩展CGFloat，方便处理绝对值
+extension CGFloat {
+    func abs() -> CGFloat {
+        return Swift.abs(self)
+    }
+}
