@@ -84,19 +84,28 @@ class RecordViewController: UIViewController {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         
         do {
-            let filePaths = try fileManager.contentsOfDirectory(atPath: documentsPath)
+            var filePaths = try fileManager.contentsOfDirectory(atPath: documentsPath)
+            
+            // 对文件名列表进行逆序排序
+            filePaths.sort(by: { (fileName1, fileName2) -> Bool in
+                let time1 = Double(fileName1.replacingOccurrences(of: "capturedImage_", with: "").replacingOccurrences(of: ".png", with: "")) ?? 0
+                let time2 = Double(fileName2.replacingOccurrences(of: "capturedImage_", with: "").replacingOccurrences(of: ".png", with: "")) ?? 0
+                return time1 > time2
+            })
+            
+            // 遍历逆序排列的文件名列表，加载图片
             for filePath in filePaths {
                 let fullPath = (documentsPath as NSString).appendingPathComponent(filePath)
                 if let image = UIImage(contentsOfFile: fullPath) {
                     let loaclSandBoxImage = loaclSandBoxImage(image: image, filename: filePath) // 注意这里filePath就是文件名
-                    loaclSandBoxImages.append(loaclSandBoxImage)
+                    loaclSandBoxImages.append(loaclSandBoxImage) // 将图像添加到数组中
                 }
             }
         } catch {
             print("Could not retrieve files: \(error.localizedDescription)")
         }
     }
-
+    
     func setEmptyUI(){
         
         

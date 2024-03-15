@@ -21,7 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.frame = UIScreen.main.bounds
         
         let tabBarController = UITabBarController()
-//        tabBarController.tabBar.barTintColor = .clear
 
         
         let main = MainViewController()

@@ -38,14 +38,7 @@ class MainViewController: UIViewController {
         self.view.addSubview(tipBackGround)
         tipBackGround.image = UIImage(named: "Group 44")?.withRenderingMode(.alwaysOriginal)
         tipBackGround.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            tipBackGround.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            tipBackGround.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-//        ])
-//        tipBackGround.layout { view in
-//            view.trailing == view.superview.trailing
-//            view.top == view.superview.top + 40
-//        }
+
         tipBackGround.layout { view in
             view.trailing == view.superview.trailing
             view.top == view.superview.top + safeAreaInsets.top
@@ -102,8 +95,8 @@ class MainViewController: UIViewController {
     @objc func toRealHeadCollage(){
         // 创建下一个视图控制器
         let category = ImageManager.ImageCategory.realHead // 选择图片类别
-        let (sortedImages, paidStartIndex) = ImageManager.shared.sortedImagesWithPaidIndex(for: category)
-        let nextViewController = CollageViewController(images: sortedImages,paidStartIndex: paidStartIndex,category:category)
+        let (sortedImages, freeStartIndex) = ImageManager.shared.sortedImagesWithFreeIndex(for: category)
+        let nextViewController = CollageViewController(images: sortedImages,freeStartIndex: freeStartIndex,category:category)
         nextViewController.view.backgroundColor = UIColor.init(hexString: "#E5FDFF")
         navigationController?.tabBarController?.tabBar.isHidden = true
 
@@ -112,8 +105,8 @@ class MainViewController: UIViewController {
     }
     @objc func toCartoonHeadCollage(){
         let category = ImageManager.ImageCategory.head // 选择图片类别
-        let (sortedImages, paidStartIndex) = ImageManager.shared.sortedImagesWithPaidIndex(for: category)
-        let nextViewController = CollageViewController(images: sortedImages,paidStartIndex: paidStartIndex,category:category)
+        let (sortedImages, freeStartIndex) = ImageManager.shared.sortedImagesWithFreeIndex(for: category)
+        let nextViewController = CollageViewController(images: sortedImages,freeStartIndex: freeStartIndex,category:category)
         nextViewController.view.backgroundColor = UIColor.init(hexString: "#E5FDFF")
         navigationController?.tabBarController?.tabBar.isHidden = true
 

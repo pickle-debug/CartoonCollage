@@ -239,8 +239,6 @@ class CCTextEditView: UIView, UITextFieldDelegate {
          }
          return true
     }
-
-
 }
 struct CCSubmitText {
     let text: String

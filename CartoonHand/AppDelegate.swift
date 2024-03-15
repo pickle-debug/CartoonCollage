@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 检查是否已经有保存的金币数
         if defaults.object(forKey: coinsKey) == nil {
             // 没有找到保存的金币数，设置一个初始值
-            let initialCoins = 50 // 你希望的默认金币数
+            let initialCoins = 15 // 你希望的默认金币数
             defaults.set(initialCoins, forKey: coinsKey)
         }
     }

@@ -16,42 +16,25 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
     private var currentIndex = 0
     
     var images: [UIImage]
-    var paidStartIndex: Int?
+    var freeStartIndex: Int?
     var category: ImageManager.ImageCategory
     let editAndControlView = UIView()
 
     
     var paidImageCount: Int = 0
     let editView = UIView()
-//    var imageIndex = 0 // 初始索引
 
-//    var EditAndControlViewOriginY = Double()
     var editAndControlViewBottomConstraint: NSLayoutConstraint?
-//    var bodyImage = UIImageView()
-//    var headImage = UIImageView()
-//    var StickerImage = UIImageView()
-//    var backgroundView = UIImageView()
-//    var StickerIsPaid = Bool()
-//    var headIsPaid = Bool()
-//    var bodyIsPaid = Bool()
-    var messageLabel = UILabel()
-
-
-//    var editAndControlViewTopConstraint: NSLayoutConstraint?
-//    var lastAddedImageView: PaidImageView?
-//    var addedImages: [PaidImageView] = []
 
 
 
     
     private var currentTextString = ""
-//    var coinsModel = CoinsModel()
     let segmentItem = ["Body","Head","Background","Sticker","Text"]
-//    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     // 自定义初始化方法
-    init(images: [UIImage],paidStartIndex:Int?,category:ImageManager.ImageCategory) {
+    init(images: [UIImage],freeStartIndex:Int?,category:ImageManager.ImageCategory) {
         self.images = images
-        self.paidStartIndex = paidStartIndex
+        self.freeStartIndex = freeStartIndex
         self.category = category
         super.init(nibName: nil, bundle: nil)
         
@@ -174,8 +157,8 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
         switch index {
         case 0:
             let category = ImageManager.ImageCategory.body // 选择图片类别
-            let (sortedImages, paidStartIndex) = ImageManager.shared.sortedImagesWithPaidIndex(for: category)
-            let imageSelectView = CCImageSelectView(frame: .zero, images: sortedImages,paidStartIndex: paidStartIndex)
+            let (sortedImages, freeStartIndex) = ImageManager.shared.sortedImagesWithFreeIndex(for: category)
+            let imageSelectView = CCImageSelectView(frame: .zero, images: sortedImages,freeStartIndex: freeStartIndex)
             editView.addSubview(imageSelectView)
             imageSelectView.layout { view in
                 view.width == editView.width
@@ -202,7 +185,7 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
                    }
             }
         case 1:
-            let imageSelectView = CCImageSelectView(frame: .zero, images: images,paidStartIndex: paidStartIndex)
+            let imageSelectView = CCImageSelectView(frame: .zero, images: images,freeStartIndex: freeStartIndex)
             editView.addSubview(imageSelectView)
             imageSelectView.layout { view in
                 view.width == editView.width
@@ -243,8 +226,8 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
             
         case 3:
             let category = ImageManager.ImageCategory.sticker // 选择图片类别
-            let (sortedImages, paidStartIndex) = ImageManager.shared.sortedImagesWithPaidIndex(for: category)
-            let imageSelectView = CCImageSelectView(frame: .zero, images: sortedImages,paidStartIndex: paidStartIndex)
+            let (sortedImages, freeStartIndex) = ImageManager.shared.sortedImagesWithFreeIndex(for: category)
+            let imageSelectView = CCImageSelectView(frame: .zero, images: sortedImages,freeStartIndex: freeStartIndex)
             editView.addSubview(imageSelectView)
             imageSelectView.layout { view in
                 view.width == editView.width
@@ -485,7 +468,6 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
             setupLabel(label, with: submitText)
         } else if let imageView = content as? PaidImageView {
             // 如果直接传入了 PaidImageView 类型的实例
-//            setupImageView(imageView: imageView,tag: tag, matchContentViewSize: matchContentViewSize)
             setupAndCenterImageView(imageView: imageView, in: contentView, matchContentViewSize: matchContentViewSize)
         } else {
             // 如果传入的是其他不支持的类型
@@ -512,35 +494,13 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
 
             // Additional configuration for the imageView (gestures, icons, etc.)
             if !matchContentViewSize {
+                // 增加20以留出icon的空间
+                imageView.frame.size.width += 30
+                imageView.frame.size.height += 30
                 addGestures(to: imageView)
                 addIconsTo(view: imageView)
             }
     }
-
-//    func setupImageView(imageView: PaidImageView,tag: Int, matchContentViewSize: Bool) {
-//        contentView.addSubview(imageView)
-//           // 打印子视图数量，仅为调试目的
-//           print(contentView.subviews.count)
-//            // 这里添加布局和配置imageView的代码
-//            if matchContentViewSize {
-//                imageView.layout { view in
-//                    view.height == contentView.height
-//                    view.width == contentView.width
-//                }
-//            }
-//        if imageView.tag == tag {
-//            imageView.layout { view in
-//                // 仅为新图片设置中心约束
-//                view.centerX == view.superview.centerX
-//                view.centerY == view.superview.centerY
-//            }
-//        }
-//        // 通用配置，为imageView添加手势和icon
-//        if !matchContentViewSize {
-//            addGestures(to: imageView)
-//            addIconsTo(view: imageView)
-//        }
-//    }
 
     func setupLabel(_ label: UILabel, with submitText: CCSubmitText) {
         label.text = submitText.text
@@ -549,38 +509,23 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
         label.textAlignment = .center
         
         label.frame = CGRect(x: 0, y: 0, width: contentView.bounds.width, height: contentView.bounds.height)
-           label.sizeToFit() // 自适应内容
-           
-           let x = (contentView.bounds.width - label.frame.width) / 2
-           let y = (contentView.bounds.height - label.frame.height) / 2
-           label.frame.origin = CGPoint(x: x, y: y)
-           
+        label.sizeToFit() // 自适应内容
+        
+        let x = (contentView.bounds.width - label.frame.width) / 2
+        let y = (contentView.bounds.height - label.frame.height) / 2
+        label.frame.origin = CGPoint(x: x, y: y)
+        
         // 增加20以留出icon的空间
-           label.frame.size.width += 30
-           label.frame.size.height += 30
+        label.frame.size.width += 30
+        label.frame.size.height += 30
         
-           // 设置label的最大宽度（可选），防止文本过长时超出屏幕
-           label.frame.size.width = min(label.frame.size.width, contentView.bounds.width)
-           
-        
-//        // 设置label的最大宽度（可选），防止文本过长时超出屏幕
-//        label.widthAnchor.constraint(lessThanOrEqualToConstant: contentView.bounds.width).isActive = true
+        // 设置label的最大宽度（可选），防止文本过长时超出屏幕
+        label.frame.size.width = min(label.frame.size.width, contentView.bounds.width)
         
         label.numberOfLines = 0 // 允许多行显示
         
         contentView.addSubview(label)
-//        label.snp.makeConstraints { make in
-//            make.width.equalTo(20)
-//            make.width.equalTo(30)
-//
-//        }
-        // 这里添加布局和配置label的代码
-        // 根据matchContentViewSize标志来设置label布局
-//        let size = label.frame.size // Assuming imageView has an intrinsic size
-//        let x = (contentView.bounds.width - size.width) / 2
-//        let y = (contentView.bounds.height - size.height) / 2
-//        label.frame = CGRect(x: x, y: y, width: size.width, height: size.height)
-
+        
         addGestures(to: label)
         addIconsTo(view: label)
     }
@@ -612,7 +557,7 @@ class CollageViewController: UIViewController,CCBackgroundEditViewDelegate{
             
             if !hasShownAlert {
                 // 弹出提示消息
-                let alert = UIAlertController(title: "Feature Introduction", message: "This is a feature that allows you to edit cartoon patterns, you can choose different avatars, bodies, background patterns and various stickers which can be moved to any position and scaled in size.\n\nIf you select a paid clip for editing, you need to consume the corresponding number of coins when saving.\n\n*Selected clips with multiple avatars, bodies and stickers may be stacked on top of each other, you can drag them to separate them.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Feature Introduction", message: "This is a feature that allows you to edit cartoon patterns, you can choose different avatars, bodies, background patterns and various stickers which can be moved to any position and scaled in size.\n\nIf you select a paid clip for editing, you need to consume the corresponding number of coins when saving.\n\nMaterials with a diamond icon in the lower right corner are paid materials.\n\n*Selected clips with multiple avatars, bodies and stickers may be stacked on top of each other, you can drag them to separate them.", preferredStyle: .alert)
                 let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
                     UserDefaults.standard.set(true, forKey: hasShownAlertKey)
                 }
@@ -708,30 +653,9 @@ extension CollageViewController: UIImagePickerControllerDelegate, UINavigationCo
         setDeleteIconsHidden(false)
         UIImageWriteToSavedPhotosAlbum(capturedImage, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
 
-        //        let capturedImage = image
-        // 保存图片到相册
-        // 检查相册访问权限
-//        PHPhotoLibrary.requestAuthorization { status in
-//            DispatchQueue.main.async {
-//                switch status {
-//                case .authorized:
-//                    // 有权限，保存图片到相册
-//                    UIImageWriteToSavedPhotosAlbum(capturedImage, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
-//                case .denied, .restricted, .limited:
-//                    // 无权限
-//                    self.view.makeToast("Photo library access denied or restricted.", title: "Save failed")
-//
-//                    print("Photo library access denied or restricted.")
-//                default:
-//                    // 未决定，一般不会执行到这里
-//                    break
-//                }
-//            }
-//        }
-//        UIImageWriteToSavedPhotosAlbum(capturedImage, nil, nil, nil)
-        //               guard isNeedToSaveSandBox else {return}
         // 生成唯一文件名
         let fileName = "capturedImage_\(Date().timeIntervalSince1970).png"
+        print(fileName)
         if let data = capturedImage.pngData() {
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
             let filePath = documentsDirectory.appendingPathComponent(fileName)

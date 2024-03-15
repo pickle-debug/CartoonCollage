@@ -20,9 +20,9 @@ class ImageManager {
     }
     //存储了每个类别中需要收费的图片索引。
     private var paidImageRules: [ImageCategory: (Int) -> Bool] = [
-        .sticker: { [1, 2, 5].contains($0) },//贴纸第1、3、6收费
+        .sticker: { [1,2,5,6,7,10].contains($0) },//贴纸第1、3、6收费
         .body: { _ in false }, // 身体全部都为免费
-        .head: { $0 >= 1 && $0 <= 6 }, // 卡通头像第2个到第7个为收费
+        .head: { $0 >= 1 && $0 <= 4 }, // 卡通头像第2个到第7个为收费
         .realHead: { $0 != 0 }, // 真人图像仅有第一个免费
         .background: { _ in true } // 全部都为收费
     ]
@@ -48,8 +48,8 @@ class ImageManager {
     func isImagePaid(at index: Int, in category: ImageCategory) -> Bool {
         return paidImageRules[category]?(index) ?? false
     }
-    //对照片数组进行排序，使得收费照片沉淀到下面，并返回从哪个下标开始为收费照片
-    func sortedImagesWithPaidIndex(for category: ImageCategory) -> ([UIImage], paidStartIndex: Int?) {
+    //对照片数组进行排序，使得免费照片沉淀到下面，并返回从哪个下标开始为收费照片
+    func sortedImagesWithFreeIndex(for category: ImageCategory) -> ([UIImage], freeStartIndex: Int?) {
             let images = self.images(for: category)
             var freeImages = [UIImage]()
             var paidImages = [UIImage]()
@@ -63,11 +63,11 @@ class ImageManager {
                 }
             }
             
-            // 合并数组，先免费后收费
-            let sortedImages = freeImages + paidImages
+            // 合并数组，先收费后免费
+            let sortedImages =  paidImages + freeImages
             
             // 如果所有图片都是免费的，收费开始索引为nil
-            let paidStartIndex = freeImages.isEmpty ? nil : freeImages.count
+            let paidStartIndex = paidImages.isEmpty ? nil : paidImages.count
             
             return (sortedImages, paidStartIndex)
         }

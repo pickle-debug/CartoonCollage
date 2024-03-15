@@ -46,14 +46,6 @@ class StoreViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.init(hexString: "#F4FFFF")
         
-//        let titleLabel = UILabel()
-//        self.view.addSubview(titleLabel)
-//        titleLabel.text = "Store"
-//        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
-//        titleLabel.layout { view in
-//            view.centerX == view.superview.centerX
-//            view.top == view.superview.top + 60
-//        }
 //        
         titleLabel.text = "Store"
         titleLabel.font = UIFont.systemFont(ofSize: 24,weight: .heavy)
