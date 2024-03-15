@@ -137,6 +137,7 @@ class CCTextEditView: UIView, UITextFieldDelegate {
         self.addSubview(textEditTF)
         textEditTF.layer.borderWidth = 2
         textEditTF.delegate = self
+        textEditTF.textColor = .black
         textEditTF.layer.borderColor = UIColor.black.cgColor
         textEditTF.layer.cornerRadius = elementHeight / 2
         textEditTF.layer.masksToBounds = true
@@ -218,13 +219,27 @@ class CCTextEditView: UIView, UITextFieldDelegate {
             print("Selected font: \(font.fontName)")
             self.selectedFont = font
         }
-
-        let submitText = CCSubmitText(text: textEditTF.text ?? "", font: selectedFont ?? UIFont.systemFont(ofSize: 16), color: selectedColor ?? UIColor.black)
+        guard (textEditTF.text != "")  else {
+            self.makeToast("You cannot put in empty Label",duration: 1.5,position: .center)
+            return
+        }
+        
+        let submitText = CCSubmitText(text: textEditTF.text!, font: selectedFont ?? UIFont.systemFont(ofSize: 16), color: selectedColor ?? UIColor.black)
+        print(submitText)
         
         textDidUpdate?(submitText)
         textEditTF.endEditing(true)
 
        }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+         print("----信息----", textField.text!,string.count)
+         // 长度限制 , string = 0  点击删除键盘
+         if textField.text!.count > 20 && string.count != 0 {
+             return false
+         }
+         return true
+    }
+
 
 }
 struct CCSubmitText {

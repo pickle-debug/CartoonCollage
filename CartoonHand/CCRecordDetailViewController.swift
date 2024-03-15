@@ -13,6 +13,7 @@ class CCRecordDetailViewController: UIViewController {
 
     var imageInSandBox: loaclSandBoxImage
     let imageView = UIImageView()
+    var titleLabel = UILabel()
     
 
        // 自定义初始化方法
@@ -27,6 +28,13 @@ class CCRecordDetailViewController: UIViewController {
 
        override func viewDidLoad() {
            super.viewDidLoad()
+           
+           titleLabel.text = "History"
+           titleLabel.font = UIFont.systemFont(ofSize: 24,weight: .heavy)
+           titleLabel.textColor = .black
+
+           self.navigationItem.titleView = titleLabel
+           
            // 创建一个带有自定义图标的UIBarButtonItem
            let button = UIButton(type: .custom)
            button.setImage(UIImage(named: "delete"), for: .normal) // 使用自己的图标名替换"yourCustomIcon"

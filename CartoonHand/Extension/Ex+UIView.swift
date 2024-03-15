@@ -43,3 +43,17 @@ extension CGFloat {
         return Swift.abs(self)
     }
 }
+//extension UILabel{
+//    func requiredHeight() -> CGFloat {
+//        let frame = CGRect(x: 0, y: 0, width: labelWidth, height: CGFloat.greatestFiniteMagnitude)
+//        let label = UILabel(frame: frame)
+//        label.numberOfLines = 0
+//        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+//        label.font = self.font
+//        label.text = self.text
+//        
+//        label.sizeToFit()
+//        
+//        return label.frame.height
+//    }
+//}

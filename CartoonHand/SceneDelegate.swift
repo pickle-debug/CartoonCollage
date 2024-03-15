@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.frame = UIScreen.main.bounds
         
         let tabBarController = UITabBarController()
+//        tabBarController.tabBar.barTintColor = .clear
 
         
         let main = MainViewController()
@@ -31,13 +32,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let record = RecordViewController()
         record.tabBarItem.image = UIImage(named: "Record")?.withRenderingMode(.alwaysOriginal)
         record.tabBarItem.selectedImage = UIImage(named: "Record_heightlight")?.withRenderingMode(.alwaysOriginal)
-//        record.tabBarItem.title = "History"
 
         
         let store = StoreViewController()
         store.tabBarItem.image = UIImage(named: "Store")?.withRenderingMode(.alwaysOriginal)
         store.tabBarItem.selectedImage = UIImage(named: "Store_heightlight")?.withRenderingMode(.alwaysOriginal)
-//        store.title = "store"
 
         
         let mainNav = UINavigationController(rootViewController: main)
@@ -49,10 +48,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.addChild(recordNav)
         tabBarController.addChild(storeNav)
 
+        tabBarController.tabBar.backgroundImage = UIImage()
+        
+        
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
-
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

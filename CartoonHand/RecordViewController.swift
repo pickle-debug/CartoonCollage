@@ -46,6 +46,10 @@ class RecordViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.barTintColor = UIColor(hexString: "#F4FFFF")
+
+//        self.view.backgroundColor = UIColor.init(hexString: "#F4FFFF")
+
         loadImages() // 重新加载图片数据
         print(loaclSandBoxImages.count)
         updateUI()
@@ -129,8 +133,8 @@ class RecordViewController: UIViewController {
                self.view.addSubview(collectionView)
            }
         collectionView.layout { view in
-            view.top == view.superview.top + 120
-            view.bottom == view.superview.bottom
+            view.top == view.superview.top + kNavBarFullHeight
+            view.bottom == view.superview.bottom - kTabBarHeight
             view.width == 343
             view.centerX == view.superview.centerX
         }
